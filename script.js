@@ -157,4 +157,26 @@ window.addEventListener('scroll', function() {
         header.style.background = '#fff';
         header.style.backdropFilter = 'none';
     }
+    
+    // About images scroll animation
+    const aboutSection = document.getElementById('about');
+    const primaryImage = document.querySelector('.about-image-primary');
+    const secondaryImage = document.querySelector('.about-image-secondary');
+    
+    if (aboutSection && aboutSection.classList.contains('active') && primaryImage && secondaryImage) {
+        const scrollProgress = Math.min(window.scrollY / 500, 1);
+        
+        // Animate primary image from left
+        const primaryTranslateX = Math.max(0, 100 - (scrollProgress * 120));
+        primaryImage.style.transform = `translateX(-${primaryTranslateX}px)`;
+        
+        // Animate secondary image from right
+        const secondaryTranslateX = Math.max(0, 100 - (scrollProgress * 120));
+        secondaryImage.style.transform = `translateX(${secondaryTranslateX}px)`;
+        
+        // Add subtle rotation based on scroll
+        const rotation = scrollProgress * 2;
+        primaryImage.style.transform += ` rotate(${rotation}deg)`;
+        secondaryImage.style.transform += ` rotate(-${rotation}deg)`;
+    }
 });
