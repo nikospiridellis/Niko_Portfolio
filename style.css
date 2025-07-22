@@ -38,7 +38,7 @@ nav {
     font-size: 22px;
     font-weight: 400;
     letter-spacing: -0.2px;
-    color: #fff;
+    color: #000;
 }
 
 .nav-links {
@@ -48,7 +48,7 @@ nav {
 }
 
 .nav-link {
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(0, 0, 0, 0.75);
     text-decoration: none;
     font-size: 14px;
     font-weight: 400;
@@ -59,7 +59,7 @@ nav {
 
 .nav-link:hover,
 .nav-link.active {
-    color: #fff;
+    color: #57068C;
 }
 
 .nav-link::after {
@@ -69,7 +69,7 @@ nav {
     left: 0;
     width: 0;
     height: 1px;
-    background-color: #fff;
+    background-color: #57068C;
     transition: width 0.3s ease;
 }
 
@@ -152,7 +152,8 @@ main {
 }
 
 .placeholder-image:hover {
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: #57068C;
+    box-shadow: 0 0 20px rgba(87, 6, 140, 0.3);
 }
 
 /* Gallery Section */
@@ -173,7 +174,7 @@ main {
 
 .gallery-item:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 40px rgba(87, 6, 140, 0.4);
 }
 
 .gallery-item .placeholder-image {
@@ -229,10 +230,10 @@ main {
 
 /* Contact Form */
 .contact-form {
-    background: rgba(255, 255, 255, 0.05);
+    background: linear-gradient(135deg, rgba(87, 6, 140, 0.1), rgba(255, 255, 255, 0.05));
     padding: 40px;
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(87, 6, 140, 0.2);
 }
 
 .form-group {
@@ -263,8 +264,9 @@ main {
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: #57068C;
     background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0 2px rgba(87, 6, 140, 0.2);
 }
 
 .form-group input::placeholder,
@@ -273,9 +275,9 @@ main {
 }
 
 .contact-form button {
-    background: rgba(255, 255, 255, 0.1);
+    background: #57068C;
     color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid #57068C;
     padding: 12px 32px;
     border-radius: 4px;
     font-size: 14px;
@@ -286,8 +288,8 @@ main {
 }
 
 .contact-form button:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.5);
+    background: #330A5C;
+    border-color: #330A5C;
     transform: translateY(-2px);
 }
 
