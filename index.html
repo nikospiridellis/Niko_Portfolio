@@ -1,16 +1,117 @@
+
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>replit</title>
-  <link href="style.css" rel="stylesheet" type="text/css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niko Spiridellis - Portfolio</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
-  Hello world
-  <script src="script.js"></script>
-</body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>Niko Spiridellis</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#about" class="nav-link active">About</a></li>
+                <li><a href="#gallery" class="nav-link">Gallery</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
+    <main>
+        <!-- About Section -->
+        <section id="about" class="section active">
+            <div class="container">
+                <h2>About Me</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>Welcome to my portfolio! I'm Niko Spiridellis, a passionate photographer and creative professional.</p>
+                        <p>I specialize in capturing moments that tell stories and evoke emotions. Through my lens, I explore the beauty in everyday life and the extraordinary in the ordinary.</p>
+                        <p>My work spans various genres of photography, from portrait and landscape to street photography and artistic compositions.</p>
+                    </div>
+                    <div class="about-image">
+                        <div class="placeholder-image">Your Photo Here</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="section">
+            <div class="container">
+                <h2>Gallery</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <div class="placeholder-image">Photo 1</div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="placeholder-image">Photo 2</div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="placeholder-image">Photo 3</div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="placeholder-image">Photo 4</div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="placeholder-image">Photo 5</div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="placeholder-image">Photo 6</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container">
+                <h2>Contact Me</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <h3>Get In Touch</h3>
+                        <p>I'd love to hear from you! Whether you're interested in collaborating, have questions about my work, or want to discuss a project, feel free to reach out.</p>
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <strong>Email:</strong> niko.spiridellis@example.com
+                            </div>
+                            <div class="contact-item">
+                                <strong>Phone:</strong> +1 (555) 123-4567
+                            </div>
+                            <div class="contact-item">
+                                <strong>Location:</strong> Your City, State
+                            </div>
+                        </div>
+                    </div>
+                    <form class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Niko Spiridellis. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
 </html>
