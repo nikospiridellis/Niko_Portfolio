@@ -103,6 +103,19 @@ main {
     transform: translateY(0);
 }
 
+/* Content Links */
+.content-link {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid transparent;
+}
+
+.content-link:hover {
+    color: #57068C;
+    border-bottom-color: #57068C;
+}
+
 /* About Section */
 .about-content {
     display: grid;
