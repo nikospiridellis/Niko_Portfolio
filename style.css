@@ -146,15 +146,15 @@ main {
 }
 
 .about-image-primary .placeholder-image {
-    width: 280px;
-    height: 280px;
+    width: 500px;
+    height: 500px;
     border-radius: 16px;
     border: 2px solid rgba(255, 255, 255, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
     color: rgba(255, 255, 255, 0.5);
-    font-size: 16px;
+    font-size: 18px;
     background: rgba(255, 255, 255, 0.03);
     transition: all 0.4s ease;
 }
@@ -165,15 +165,15 @@ main {
 }
 
 .about-image-secondary .placeholder-image {
-    width: 240px;
-    height: 320px;
+    width: 500px;
+    height: 500px;
     border-radius: 12px;
     border: 2px solid rgba(87, 6, 140, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
     color: rgba(255, 255, 255, 0.4);
-    font-size: 14px;
+    font-size: 16px;
     background: linear-gradient(135deg, rgba(87, 6, 140, 0.05), rgba(255, 255, 255, 0.02));
     transition: all 0.4s ease;
 }
@@ -370,13 +370,15 @@ footer p {
     }
     
     .about-image-primary .placeholder-image {
-        width: 220px;
-        height: 220px;
+        width: 350px;
+        height: 350px;
+        font-size: 16px;
     }
     
     .about-image-secondary .placeholder-image {
-        width: 200px;
-        height: 260px;
+        width: 350px;
+        height: 350px;
+        font-size: 14px;
     }
     
     .gallery-grid {
@@ -395,6 +397,13 @@ footer p {
     
     .about-text h2 {
         font-size: 28px;
+    }
+    
+    .about-image-primary .placeholder-image,
+    .about-image-secondary .placeholder-image {
+        width: 280px;
+        height: 280px;
+        font-size: 12px;
     }
     
     .contact-form {
