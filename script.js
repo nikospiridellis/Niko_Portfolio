@@ -70,31 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Handle contact form submission
-    const contactForm = document.querySelector('.contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(this);
-            const name = formData.get('name');
-            const email = formData.get('email');
-            const message = formData.get('message');
-            
-            // Simple validation
-            if (!name || !email || !message) {
-                alert('Please fill in all fields.');
-                return;
-            }
-            
-            // Simulate form submission
-            alert(`Thank you, ${name}! Your message has been sent. I'll get back to you soon at ${email}.`);
-            
-            // Reset form
-            this.reset();
-        });
-    }
+    
     
     // Lightbox functionality
     const lightbox = document.getElementById('lightbox');
