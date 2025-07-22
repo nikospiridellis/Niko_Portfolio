@@ -25,6 +25,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Handle internal content links (like street photographer -> gallery)
+    const contentLinks = document.querySelectorAll('.content-link[href^="#"]');
+    contentLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href === '#gallery') {
+                e.preventDefault();
+                
+                // Remove active class from all nav links and sections
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                sections.forEach(section => section.classList.remove('active'));
+                
+                // Activate gallery nav link and section
+                const galleryNavLink = document.querySelector('.nav-link[href="#gallery"]');
+                const gallerySection = document.getElementById('gallery');
+                
+                if (galleryNavLink && gallerySection) {
+                    galleryNavLink.classList.add('active');
+                    gallerySection.classList.add('active');
+                }
+            }
+        });
+    });
+    
     // Handle contact form submission
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
