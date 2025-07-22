@@ -351,6 +351,26 @@ footer {
     margin-top: 80px;
 }
 
+.footer-links {
+    margin-bottom: 15px;
+}
+
+.footer-links p {
+    margin: 5px 0;
+}
+
+.footer-link {
+    color: white;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+    color: #8a2be2;
+}
+
 footer p {
     text-align: center;
     color: rgba(255, 255, 255, 0.5);

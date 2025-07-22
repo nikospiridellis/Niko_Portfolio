@@ -49,6 +49,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Handle footer contact link
+    const footerContactLink = document.querySelector('.footer-link[href="#contact"]');
+    if (footerContactLink) {
+        footerContactLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all nav links and sections
+            navLinks.forEach(nav => nav.classList.remove('active'));
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Activate contact nav link and section
+            const contactNavLink = document.querySelector('.nav-link[href="#contact"]');
+            const contactSection = document.getElementById('contact');
+            
+            if (contactNavLink && contactSection) {
+                contactNavLink.classList.add('active');
+                contactSection.classList.add('active');
+            }
+        });
+    }
+    
     // Handle contact form submission
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
