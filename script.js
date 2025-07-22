@@ -105,8 +105,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function updateLightboxImage() {
         const currentItem = galleryItems[currentImageIndex];
-        const placeholderText = currentItem.querySelector('.placeholder-image').textContent;
-        lightboxImage.textContent = placeholderText;
+        const img = currentItem.querySelector('.placeholder-image');
+        
+        if (img.tagName === 'IMG') {
+            // Create an img element for the lightbox
+            lightboxImage.innerHTML = `<img src="${img.src}" alt="${img.alt}" class="lightbox-image">`;
+        } else {
+            // Handle placeholder divs
+            lightboxImage.textContent = img.textContent;
+        }
+        
         lightboxCounter.textContent = `${currentImageIndex + 1} / ${totalImages}`;
     }
     

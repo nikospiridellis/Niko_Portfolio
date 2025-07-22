@@ -470,6 +470,14 @@ footer p {
     font-weight: 300;
 }
 
+#lightbox-image .lightbox-image {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 0;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
 .lightbox-nav {
     position: absolute;
     top: 50%;
