@@ -133,27 +133,69 @@ main {
     font-weight: 300;
 }
 
-.about-image {
+.about-images {
+    position: relative;
+    height: 400px;
     display: flex;
+    align-items: center;
     justify-content: center;
 }
 
-.placeholder-image {
-    width: 200px;
-    height: 200px;
+.about-image-primary {
+    position: relative;
+    z-index: 2;
+}
+
+.about-image-primary .placeholder-image {
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 3px solid rgba(255, 255, 255, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
     color: rgba(255, 255, 255, 0.5);
-    font-size: 14px;
+    font-size: 12px;
     transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
 }
 
-.placeholder-image:hover {
+.about-image-secondary {
+    position: absolute;
+    top: 60px;
+    right: -20px;
+    z-index: 1;
+    transform: rotate(8deg);
+}
+
+.about-image-secondary .placeholder-image {
+    width: 140px;
+    height: 200px;
+    border-radius: 8px;
+    border: 2px solid rgba(87, 6, 140, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 11px;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, rgba(87, 6, 140, 0.1), rgba(255, 255, 255, 0.05));
+}
+
+.about-image-primary .placeholder-image:hover {
+    border-color: #57068C;
+    box-shadow: 0 0 30px rgba(87, 6, 140, 0.4);
+    transform: scale(1.05);
+}
+
+.about-image-secondary .placeholder-image:hover {
     border-color: #57068C;
     box-shadow: 0 0 20px rgba(87, 6, 140, 0.3);
+    transform: rotate(-2deg) scale(1.05);
+}
+
+.about-images:hover .about-image-secondary {
+    transform: rotate(12deg);
 }
 
 /* Gallery Section */
@@ -329,6 +371,25 @@ footer p {
     
     .about-text h2 {
         font-size: 32px;
+    }
+    
+    .about-images {
+        height: 300px;
+    }
+    
+    .about-image-primary .placeholder-image {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .about-image-secondary {
+        top: 40px;
+        right: -15px;
+    }
+    
+    .about-image-secondary .placeholder-image {
+        width: 120px;
+        height: 170px;
     }
     
     .gallery-grid {
