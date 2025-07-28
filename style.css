@@ -427,10 +427,19 @@ footer p {
 
     .nav-link {
         font-size: 12px;
+        padding: 8px 12px;
+        min-height: 44px; /* Better touch targets */
+        display: flex;
+        align-items: center;
     }
 
     .about-text h2 {
         font-size: 28px;
+    }
+
+    .about-text p {
+        font-size: 16px;
+        line-height: 1.6;
     }
 
     .about-image-primary .placeholder-image,
@@ -440,12 +449,24 @@ footer p {
         font-size: 12px;
     }
 
-    .contact-form {
-        padding: 24px;
+    .contact-photo {
+        width: 100%;
+        max-width: 350px;
+        height: 250px;
     }
 
     .gallery-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .gallery-item {
+        margin-bottom: 8px;
+    }
+    
+    /* Prevent zooming on input focus */
+    input, select, textarea {
+        font-size: 16px;
     }
 }
 
@@ -460,6 +481,37 @@ footer p {
     background: rgba(0, 0, 0, 0.95);
     z-index: 2000;
     backdrop-filter: blur(10px);
+}
+
+/* Mobile lightbox improvements */
+@media (max-width: 768px) {
+    .lightbox-nav {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+    }
+    
+    .lightbox-prev {
+        left: 20px;
+    }
+    
+    .lightbox-next {
+        right: 20px;
+    }
+    
+    .lightbox-close {
+        top: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+    }
+    
+    .lightbox-counter {
+        bottom: 20px;
+        font-size: 16px;
+        padding: 10px 20px;
+    }
 }
 
 .lightbox.active {
