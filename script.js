@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Add some interactive effects
+// Add some interactive effects with enhanced scroll animations
 window.addEventListener('scroll', function() {
     const header = document.querySelector('header');
     if (window.scrollY > 100) {
@@ -232,25 +232,143 @@ window.addEventListener('scroll', function() {
         header.style.backdropFilter = 'none';
     }
     
-    // About images scroll animation
+    // Get current scroll position and window height for calculations
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const windowHeight = window.innerHeight;
+    
+    // About section scroll animations
     const aboutSection = document.getElementById('about');
     const primaryImage = document.querySelector('.about-image-primary');
     const secondaryImage = document.querySelector('.about-image-secondary');
     
-    if (aboutSection && aboutSection.classList.contains('active') && primaryImage && secondaryImage) {
-        const scrollProgress = Math.min(window.scrollY / 500, 1);
+    if (aboutSection && primaryImage && secondaryImage) {
+        const aboutRect = aboutSection.getBoundingClientRect();
+        const aboutTop = aboutRect.top + scrollTop;
+        const aboutHeight = aboutRect.height;
         
-        // Animate primary image from left
-        const primaryTranslateX = Math.max(0, 100 - (scrollProgress * 120));
-        primaryImage.style.transform = `translateX(-${primaryTranslateX}px)`;
+        // Only animate when section is in view
+        if (aboutRect.top < windowHeight && aboutRect.bottom > 0) {
+            // Calculate progress based on how much of the section has been scrolled past
+            const sectionProgress = Math.max(0, Math.min(1, (scrollTop - aboutTop + windowHeight) / (aboutHeight + windowHeight)));
+            
+            // Primary image animations - floating and subtle parallax
+            const primaryFloat = Math.sin(sectionProgress * Math.PI * 2) * 10;
+            const primaryParallax = sectionProgress * 30;
+            const primaryScale = 1 + (sectionProgress * 0.05);
+            const primaryRotation = sectionProgress * 3;
+            
+            primaryImage.style.transform = `
+                translateY(${primaryFloat - primaryParallax}px) 
+                translateX(${-20 + sectionProgress * 40}px)
+                scale(${primaryScale}) 
+                rotate(${primaryRotation}deg)
+            `;
+            
+            // Secondary image animations - counter-motion for dynamic effect
+            const secondaryFloat = Math.cos(sectionProgress * Math.PI * 2 + Math.PI/2) * 15;
+            const secondaryParallax = sectionProgress * -20;
+            const secondaryScale = 1 + (sectionProgress * 0.03);
+            const secondaryRotation = -sectionProgress * 2;
+            
+            secondaryImage.style.transform = `
+                translateY(${secondaryFloat - secondaryParallax}px) 
+                translateX(${20 - sectionProgress * 40}px)
+                scale(${secondaryScale}) 
+                rotate(${secondaryRotation}deg)
+            `;
+            
+            // Add opacity fade effect
+            const opacity = Math.max(0.7, 1 - sectionProgress * 0.3);
+            primaryImage.style.opacity = opacity;
+            secondaryImage.style.opacity = opacity;
+        }
+    }
+    
+    // Contact section scroll animations
+    const contactSection = document.getElementById('contact');
+    const contactPhotos = document.querySelectorAll('.contact-photo-frame');
+    
+    if (contactSection && contactPhotos.length > 0) {
+        const contactRect = contactSection.getBoundingClientRect();
+        const contactTop = contactRect.top + scrollTop;
+        const contactHeight = contactRect.height;
         
-        // Animate secondary image from right
-        const secondaryTranslateX = Math.max(0, 100 - (scrollProgress * 120));
-        secondaryImage.style.transform = `translateX(${secondaryTranslateX}px)`;
+        // Only animate when section is in view
+        if (contactRect.top < windowHeight && contactRect.bottom > 0) {
+            const sectionProgress = Math.max(0, Math.min(1, (scrollTop - contactTop + windowHeight) / (contactHeight + windowHeight)));
+            
+            contactPhotos.forEach((photo, index) => {
+                // Staggered animation for multiple photos
+                const staggerDelay = index * 0.2;
+                const adjustedProgress = Math.max(0, Math.min(1, sectionProgress - staggerDelay));
+                
+                // Wave motion with different phases for each photo
+                const waveOffset = index * Math.PI / 3;
+                const wave = Math.sin(adjustedProgress * Math.PI * 2 + waveOffset) * 12;
+                const parallax = adjustedProgress * (index % 2 === 0 ? -25 : 25);
+                const scale = 1 + (adjustedProgress * 0.04);
+                const rotation = Math.sin(adjustedProgress * Math.PI) * (index % 2 === 0 ? 2 : -2);
+                
+                photo.style.transform = `
+                    translateY(${wave + parallax}px) 
+                    translateX(${Math.cos(adjustedProgress * Math.PI + waveOffset) * 8}px)
+                    scale(${scale}) 
+                    rotate(${rotation}deg)
+                `;
+                
+                // Subtle opacity animation
+                const opacity = Math.max(0.8, 1 - adjustedProgress * 0.2);
+                photo.style.opacity = opacity;
+            });
+        }
+    }
+});
+
+// Add mouse movement parallax effect for desktop
+document.addEventListener('mousemove', function(e) {
+    // Only on desktop screens
+    if (window.innerWidth > 768) {
+        const mouseX = e.clientX / window.innerWidth;
+        const mouseY = e.clientY / window.innerHeight;
         
-        // Add subtle rotation based on scroll
-        const rotation = scrollProgress * 2;
-        primaryImage.style.transform += ` rotate(${rotation}deg)`;
-        secondaryImage.style.transform += ` rotate(-${rotation}deg)`;
+        // About images mouse parallax
+        const primaryImage = document.querySelector('.about-image-primary');
+        const secondaryImage = document.querySelector('.about-image-secondary');
+        
+        if (primaryImage && secondaryImage) {
+            const aboutSection = document.getElementById('about');
+            const aboutRect = aboutSection?.getBoundingClientRect();
+            
+            // Only apply mouse parallax when about section is visible
+            if (aboutRect && aboutRect.top < window.innerHeight && aboutRect.bottom > 0) {
+                const primaryMouseX = (mouseX - 0.5) * 15;
+                const primaryMouseY = (mouseY - 0.5) * 10;
+                const secondaryMouseX = (mouseX - 0.5) * -12;
+                const secondaryMouseY = (mouseY - 0.5) * -8;
+                
+                // Apply mouse parallax on top of existing transforms
+                primaryImage.style.transform += ` translate(${primaryMouseX}px, ${primaryMouseY}px)`;
+                secondaryImage.style.transform += ` translate(${secondaryMouseX}px, ${secondaryMouseY}px)`;
+            }
+        }
+        
+        // Contact photos mouse parallax
+        const contactPhotos = document.querySelectorAll('.contact-photo-frame');
+        if (contactPhotos.length > 0) {
+            const contactSection = document.getElementById('contact');
+            const contactRect = contactSection?.getBoundingClientRect();
+            
+            // Only apply mouse parallax when contact section is visible
+            if (contactRect && contactRect.top < window.innerHeight && contactRect.bottom > 0) {
+                contactPhotos.forEach((photo, index) => {
+                    const mouseMultiplier = index % 2 === 0 ? 8 : -6;
+                    const mouseOffsetX = (mouseX - 0.5) * mouseMultiplier;
+                    const mouseOffsetY = (mouseY - 0.5) * (mouseMultiplier * 0.6);
+                    
+                    // Apply mouse parallax on top of existing transforms
+                    photo.style.transform += ` translate(${mouseOffsetX}px, ${mouseOffsetY}px)`;
+                });
+            }
+        }
     }
 });
