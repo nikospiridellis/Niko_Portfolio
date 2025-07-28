@@ -443,6 +443,7 @@ footer p {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 
 .lightbox-image {
@@ -451,6 +452,7 @@ footer p {
     object-fit: contain;
     border-radius: 0;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
 }
 
 .lightbox-placeholder {
@@ -465,6 +467,16 @@ footer p {
     color: rgba(255, 255, 255, 0.7);
     font-size: 24px;
     font-weight: 300;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+#lightbox-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #lightbox-image .lightbox-image {
@@ -473,6 +485,55 @@ footer p {
     object-fit: contain;
     border-radius: 0;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+/* Animation classes for sliding transitions */
+.slide-out-left {
+    transform: translateX(-100%) scale(0.8);
+    opacity: 0;
+}
+
+.slide-out-right {
+    transform: translateX(100%) scale(0.8);
+    opacity: 0;
+}
+
+.slide-in-left {
+    transform: translateX(-100%) scale(0.8);
+    opacity: 0;
+}
+
+.slide-in-right {
+    transform: translateX(100%) scale(0.8);
+    opacity: 0;
+}
+
+.slide-in-center {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+}
+
+/* Loading shimmer effect */
+.lightbox-loading {
+    position: relative;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.05) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
 }
 
 .lightbox-nav {

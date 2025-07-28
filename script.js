@@ -103,29 +103,74 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = ''; // Restore background scrolling
     }
     
-    function updateLightboxImage() {
+    function updateLightboxImage(direction = null) {
         const currentItem = galleryItems[currentImageIndex];
         const img = currentItem.querySelector('.placeholder-image');
         
+        // Add loading shimmer effect
+        lightboxImage.classList.add('lightbox-loading');
+        
+        // Create new image content
+        let newContent;
         if (img.tagName === 'IMG') {
-            // Create an img element for the lightbox
-            lightboxImage.innerHTML = `<img src="${img.src}" alt="${img.alt}" class="lightbox-image">`;
+            newContent = `<img src="${img.src}" alt="${img.alt}" class="lightbox-image">`;
         } else {
-            // Handle placeholder divs
-            lightboxImage.textContent = img.textContent;
+            newContent = img.textContent;
+        }
+        
+        // Apply slide-in animation based on direction
+        if (direction) {
+            const slideInClass = direction === 'next' ? 'slide-in-right' : 'slide-in-left';
+            
+            // Start with image off-screen
+            lightboxImage.innerHTML = newContent;
+            const newImage = lightboxImage.querySelector('.lightbox-image') || lightboxImage;
+            newImage.classList.add(slideInClass);
+            
+            // Remove loading shimmer
+            lightboxImage.classList.remove('lightbox-loading');
+            
+            // Trigger slide-in animation after a brief delay
+            requestAnimationFrame(() => {
+                newImage.classList.remove(slideInClass);
+                newImage.classList.add('slide-in-center');
+                
+                // Clean up animation classes after transition
+                setTimeout(() => {
+                    newImage.classList.remove('slide-in-center');
+                }, 500);
+            });
+        } else {
+            // Initial load without animation
+            lightboxImage.innerHTML = newContent;
+            lightboxImage.classList.remove('lightbox-loading');
         }
         
         lightboxCounter.textContent = `${currentImageIndex + 1} / ${totalImages}`;
     }
     
     function showPrevImage() {
-        currentImageIndex = (currentImageIndex - 1 + totalImages) % totalImages;
-        updateLightboxImage();
+        // Animate current image out to the right
+        const currentImage = lightboxImage.querySelector('.lightbox-image') || lightboxImage;
+        currentImage.classList.add('slide-out-right');
+        
+        // Update index and load new image after animation starts
+        setTimeout(() => {
+            currentImageIndex = (currentImageIndex - 1 + totalImages) % totalImages;
+            updateLightboxImage('prev');
+        }, 150);
     }
     
     function showNextImage() {
-        currentImageIndex = (currentImageIndex + 1) % totalImages;
-        updateLightboxImage();
+        // Animate current image out to the left
+        const currentImage = lightboxImage.querySelector('.lightbox-image') || lightboxImage;
+        currentImage.classList.add('slide-out-left');
+        
+        // Update index and load new image after animation starts
+        setTimeout(() => {
+            currentImageIndex = (currentImageIndex + 1) % totalImages;
+            updateLightboxImage('next');
+        }, 150);
     }
     
     // Event listeners for lightbox controls
