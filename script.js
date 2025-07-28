@@ -236,102 +236,56 @@ window.addEventListener('scroll', function() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const windowHeight = window.innerHeight;
     
-    // About section scroll animations
+    // About section scroll animations - simple parallax effect
     const aboutSection = document.getElementById('about');
     const primaryImage = document.querySelector('.about-image-primary');
     const secondaryImage = document.querySelector('.about-image-secondary');
     
     if (aboutSection && primaryImage && secondaryImage) {
         const aboutRect = aboutSection.getBoundingClientRect();
-        const aboutTop = aboutRect.top + scrollTop;
-        const aboutHeight = aboutRect.height;
         
         // Only animate when section is in view
         if (aboutRect.top < windowHeight && aboutRect.bottom > 0) {
-            // Calculate progress based on how much of the section has been scrolled past
-            const sectionProgress = Math.max(0, Math.min(1, (scrollTop - aboutTop + windowHeight) / (aboutHeight + windowHeight)));
+            // Simple parallax effect - images move slower than scroll
+            const scrollProgress = scrollTop * 0.5;
             
-            // Primary image animations - floating and subtle parallax
-            const primaryFloat = Math.sin(sectionProgress * Math.PI * 2) * 10;
-            const primaryParallax = sectionProgress * 30;
-            const primaryScale = 1 + (sectionProgress * 0.05);
-            const primaryRotation = sectionProgress * 3;
+            // Primary image - moves up slower than scroll
+            primaryImage.style.transform = `translateY(${-scrollProgress * 0.3}px)`;
             
-            primaryImage.style.transform = `
-                translateY(${primaryFloat - primaryParallax}px) 
-                translateX(${-20 + sectionProgress * 40}px)
-                scale(${primaryScale}) 
-                rotate(${primaryRotation}deg)
-            `;
-            
-            // Secondary image animations - counter-motion for dynamic effect
-            const secondaryFloat = Math.cos(sectionProgress * Math.PI * 2 + Math.PI/2) * 15;
-            const secondaryParallax = sectionProgress * -20;
-            const secondaryScale = 1 + (sectionProgress * 0.03);
-            const secondaryRotation = -sectionProgress * 2;
-            
-            secondaryImage.style.transform = `
-                translateY(${secondaryFloat - secondaryParallax}px) 
-                translateX(${20 - sectionProgress * 40}px)
-                scale(${secondaryScale}) 
-                rotate(${secondaryRotation}deg)
-            `;
-            
-            // Add opacity fade effect
-            const opacity = Math.max(0.7, 1 - sectionProgress * 0.3);
-            primaryImage.style.opacity = opacity;
-            secondaryImage.style.opacity = opacity;
+            // Secondary image - moves down slower than scroll  
+            secondaryImage.style.transform = `translateY(${scrollProgress * 0.2}px)`;
         }
     }
     
-    // Contact section scroll animations
+    // Contact section scroll animations - simple parallax effect
     const contactSection = document.getElementById('contact');
     const contactPhotos = document.querySelectorAll('.contact-photo-frame');
     
     if (contactSection && contactPhotos.length > 0) {
         const contactRect = contactSection.getBoundingClientRect();
-        const contactTop = contactRect.top + scrollTop;
-        const contactHeight = contactRect.height;
         
         // Only animate when section is in view
         if (contactRect.top < windowHeight && contactRect.bottom > 0) {
-            const sectionProgress = Math.max(0, Math.min(1, (scrollTop - contactTop + windowHeight) / (contactHeight + windowHeight)));
+            // Simple parallax effect for contact photos
+            const scrollProgress = scrollTop * 0.5;
             
             contactPhotos.forEach((photo, index) => {
-                // Staggered animation for multiple photos
-                const staggerDelay = index * 0.2;
-                const adjustedProgress = Math.max(0, Math.min(1, sectionProgress - staggerDelay));
-                
-                // Wave motion with different phases for each photo
-                const waveOffset = index * Math.PI / 3;
-                const wave = Math.sin(adjustedProgress * Math.PI * 2 + waveOffset) * 12;
-                const parallax = adjustedProgress * (index % 2 === 0 ? -25 : 25);
-                const scale = 1 + (adjustedProgress * 0.04);
-                const rotation = Math.sin(adjustedProgress * Math.PI) * (index % 2 === 0 ? 2 : -2);
-                
-                photo.style.transform = `
-                    translateY(${wave + parallax}px) 
-                    translateX(${Math.cos(adjustedProgress * Math.PI + waveOffset) * 8}px)
-                    scale(${scale}) 
-                    rotate(${rotation}deg)
-                `;
-                
-                // Subtle opacity animation
-                const opacity = Math.max(0.8, 1 - adjustedProgress * 0.2);
-                photo.style.opacity = opacity;
+                // Different parallax speeds for each photo
+                const parallaxSpeed = index % 2 === 0 ? 0.25 : -0.15;
+                photo.style.transform = `translateY(${scrollProgress * parallaxSpeed}px)`;
             });
         }
     }
 });
 
-// Add mouse movement parallax effect for desktop
+// Simple mouse movement parallax effect for desktop - minimal movement
 document.addEventListener('mousemove', function(e) {
     // Only on desktop screens
     if (window.innerWidth > 768) {
-        const mouseX = e.clientX / window.innerWidth;
-        const mouseY = e.clientY / window.innerHeight;
+        const mouseX = (e.clientX / window.innerWidth - 0.5) * 10;
+        const mouseY = (e.clientY / window.innerHeight - 0.5) * 5;
         
-        // About images mouse parallax
+        // About images subtle mouse parallax
         const primaryImage = document.querySelector('.about-image-primary');
         const secondaryImage = document.querySelector('.about-image-secondary');
         
@@ -339,34 +293,22 @@ document.addEventListener('mousemove', function(e) {
             const aboutSection = document.getElementById('about');
             const aboutRect = aboutSection?.getBoundingClientRect();
             
-            // Only apply mouse parallax when about section is visible
             if (aboutRect && aboutRect.top < window.innerHeight && aboutRect.bottom > 0) {
-                const primaryMouseX = (mouseX - 0.5) * 15;
-                const primaryMouseY = (mouseY - 0.5) * 10;
-                const secondaryMouseX = (mouseX - 0.5) * -12;
-                const secondaryMouseY = (mouseY - 0.5) * -8;
-                
-                // Apply mouse parallax on top of existing transforms
-                primaryImage.style.transform += ` translate(${primaryMouseX}px, ${primaryMouseY}px)`;
-                secondaryImage.style.transform += ` translate(${secondaryMouseX}px, ${secondaryMouseY}px)`;
+                primaryImage.style.transform += ` translate(${mouseX}px, ${mouseY}px)`;
+                secondaryImage.style.transform += ` translate(${-mouseX * 0.5}px, ${-mouseY * 0.5}px)`;
             }
         }
         
-        // Contact photos mouse parallax
+        // Contact photos subtle mouse parallax
         const contactPhotos = document.querySelectorAll('.contact-photo-frame');
         if (contactPhotos.length > 0) {
             const contactSection = document.getElementById('contact');
             const contactRect = contactSection?.getBoundingClientRect();
             
-            // Only apply mouse parallax when contact section is visible
             if (contactRect && contactRect.top < window.innerHeight && contactRect.bottom > 0) {
                 contactPhotos.forEach((photo, index) => {
-                    const mouseMultiplier = index % 2 === 0 ? 8 : -6;
-                    const mouseOffsetX = (mouseX - 0.5) * mouseMultiplier;
-                    const mouseOffsetY = (mouseY - 0.5) * (mouseMultiplier * 0.6);
-                    
-                    // Apply mouse parallax on top of existing transforms
-                    photo.style.transform += ` translate(${mouseOffsetX}px, ${mouseOffsetY}px)`;
+                    const multiplier = index % 2 === 0 ? 1 : -0.5;
+                    photo.style.transform += ` translate(${mouseX * multiplier}px, ${mouseY * multiplier}px)`;
                 });
             }
         }
