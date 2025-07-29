@@ -339,21 +339,21 @@ window.addEventListener('scroll', function() {
         if (imageInViewport) {
             image.classList.add('visible');
             
-            // Only start sliding off when less than 50% visible (halfway off screen)
-            if (visibilityPercentage >= 0.5) {
-                // More than half visible - stay centered and opaque
+            // Start sliding off when less than 70% visible (start fade sooner)
+            if (visibilityPercentage >= 0.7) {
+                // More than 70% visible - stay centered and opaque
                 image.style.opacity = 1;
                 image.style.transform = 'translateX(0)';
             } else {
-                // Less than half visible - start sliding off and fading
-                const animationProgress = 1 - (visibilityPercentage / 0.5); // Normalize to 0-1
+                // Less than 70% visible - start sliding off and fading
+                const animationProgress = 1 - (visibilityPercentage / 0.7); // Normalize to 0-1
                 
                 if (isScrollingUp) {
                     // Scrolling up - fade from black
-                    image.style.opacity = visibilityPercentage / 0.5; // Fade in from black
+                    image.style.opacity = visibilityPercentage / 0.7; // Fade in from black
                 } else {
-                    // Scrolling down - normal fade
-                    image.style.opacity = 1 - (animationProgress * 0.8);
+                    // Scrolling down - fade to almost 0% opacity
+                    image.style.opacity = 1 - (animationProgress * 0.98); // Nearly complete fade
                 }
                 
                 // Slide in opposite directions
