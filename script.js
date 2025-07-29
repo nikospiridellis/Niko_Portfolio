@@ -261,41 +261,75 @@ window.addEventListener('scroll', function() {
         }
     }
     
-    // About paragraphs scroll animation
+    // About paragraphs scroll animation with visibility-based opacity
     const aboutParagraphs = document.querySelectorAll('.about-paragraph');
     
     aboutParagraphs.forEach(paragraph => {
         const rect = paragraph.getBoundingClientRect();
-        const isVisible = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
-        const isInView = rect.top < window.innerHeight * 0.9 && rect.bottom > window.innerHeight * 0.1;
+        const elementHeight = rect.height;
+        const windowHeight = window.innerHeight;
         
-        if (isVisible) {
-            paragraph.classList.add('visible');
+        // Calculate how much of the element is visible
+        let visibleHeight = 0;
+        if (rect.top < windowHeight && rect.bottom > 0) {
+            const visibleTop = Math.max(0, rect.top);
+            const visibleBottom = Math.min(windowHeight, rect.bottom);
+            visibleHeight = visibleBottom - visibleTop;
         }
         
-        if (isInView) {
-            paragraph.classList.remove('fade-out');
+        // Calculate visibility percentage
+        const visibilityPercentage = Math.min(1, Math.max(0, visibleHeight / elementHeight));
+        
+        // Apply opacity based on visibility percentage
+        if (visibilityPercentage > 0) {
+            paragraph.classList.add('visible');
+            paragraph.style.opacity = visibilityPercentage;
+            paragraph.style.transform = `translateY(${30 * (1 - visibilityPercentage)}px)`;
         } else {
-            paragraph.classList.add('fade-out');
+            paragraph.classList.remove('visible');
+            paragraph.style.opacity = 0;
+            paragraph.style.transform = 'translateY(30px)';
         }
     });
     
-    // About images scroll animation
+    // About images scroll animation with visibility-based opacity
     const aboutImages = document.querySelectorAll('.about-image');
     
     aboutImages.forEach(image => {
         const rect = image.getBoundingClientRect();
-        const isVisible = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
-        const isInView = rect.top < window.innerHeight * 0.9 && rect.bottom > window.innerHeight * 0.1;
+        const elementHeight = rect.height;
+        const windowHeight = window.innerHeight;
         
-        if (isVisible) {
-            image.classList.add('visible');
+        // Calculate how much of the element is visible
+        let visibleHeight = 0;
+        if (rect.top < windowHeight && rect.bottom > 0) {
+            const visibleTop = Math.max(0, rect.top);
+            const visibleBottom = Math.min(windowHeight, rect.bottom);
+            visibleHeight = visibleBottom - visibleTop;
         }
         
-        if (isInView) {
-            image.classList.remove('fade-out');
+        // Calculate visibility percentage
+        const visibilityPercentage = Math.min(1, Math.max(0, visibleHeight / elementHeight));
+        
+        // Apply opacity and transform based on visibility percentage
+        if (visibilityPercentage > 0) {
+            image.classList.add('visible');
+            image.style.opacity = visibilityPercentage;
+            
+            // Apply different transforms for primary and secondary images
+            if (image.closest('.about-image-primary')) {
+                image.style.transform = `translateX(${-50 * (1 - visibilityPercentage)}px)`;
+            } else {
+                image.style.transform = `translateX(${50 * (1 - visibilityPercentage)}px)`;
+            }
         } else {
-            image.classList.add('fade-out');
+            image.classList.remove('visible');
+            image.style.opacity = 0;
+            if (image.closest('.about-image-primary')) {
+                image.style.transform = 'translateX(-50px)';
+            } else {
+                image.style.transform = 'translateX(50px)';
+            }
         }
     });
 });

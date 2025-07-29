@@ -175,12 +175,31 @@ main {
 
 .about-main-title .word {
     display: inline-block;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
     cursor: default;
+    position: relative;
+    z-index: 1;
 }
 
 .about-main-title .word:hover {
     transform: scale(1.5);
+    z-index: 2;
+}
+
+.about-main-title .word:hover + .word {
+    transform: translateX(20px);
+}
+
+.about-main-title:has(.word:hover) .word:not(:hover) {
+    transition: all 0.3s ease;
+}
+
+.about-main-title .word:hover ~ .word {
+    transform: translateX(20px);
+}
+
+.about-main-title .word:has(+ .word:hover) {
+    transform: translateX(-20px);
 }
 
 .about-images-section {
@@ -256,7 +275,7 @@ main {
     text-align: center;
     opacity: 0;
     transform: translateY(30px);
-    transition: all 0.8s ease;
+    transition: all 0.6s ease;
 }
 
 .about-paragraph.visible {
