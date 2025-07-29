@@ -38,18 +38,18 @@ nav {
     header {
         padding: 12px 16px;
     }
-
+    
     nav {
         flex-direction: column;
         gap: 12px;
         align-items: center;
     }
-
+    
     .nav-links {
         gap: 16px;
         justify-content: center;
     }
-
+    
     .nav-link {
         font-size: 12px;
         padding: 4px 8px;
@@ -141,10 +141,11 @@ main {
 
 /* About Section */
 .about-content {
-    display: block;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 80px;
+    align-items: center;
     padding: 80px 0;
-    position: relative;
-    overflow: hidden;
 }
 
 .about-text {
@@ -172,20 +173,16 @@ main {
     flex-direction: column;
     gap: 40px;
     align-items: center;
-    position: fixed;
-    right: 80px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
 }
 
 .about-image-primary {
     position: relative;
+    transition: transform 0.6s ease-out;
 }
 
 .about-image-primary .placeholder-image {
-    width: 400px;
-    height: 400px;
+    width: 500px;
+    height: 500px;
     border-radius: 0;
     border: none;
     display: flex;
@@ -201,11 +198,12 @@ main {
 
 .about-image-secondary {
     position: relative;
+    transition: transform 0.8s ease-out;
 }
 
 .about-image-secondary .placeholder-image {
-    width: 400px;
-    height: 400px;
+    width: 500px;
+    height: 500px;
     border-radius: 0;
     border: none;
     display: flex;
@@ -217,6 +215,16 @@ main {
     transition: all 0.4s ease;
     object-fit: cover;
     object-position: center;
+}
+
+.about-image-primary .placeholder-image:hover {
+    box-shadow: 0 0 40px rgba(87, 6, 140, 0.3);
+    transform: scale(1.02);
+}
+
+.about-image-secondary .placeholder-image:hover {
+    box-shadow: 0 0 40px rgba(87, 6, 140, 0.2);
+    transform: scale(1.02);
 }
 
 /* Gallery Section */
@@ -255,10 +263,10 @@ main {
 
 /* Contact Section */
 .contact-content {
-    display: block;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
     padding: 40px 0;
-    position: relative;
-    overflow: hidden;
 }
 
 .contact-info h3 {
@@ -298,20 +306,16 @@ main {
     flex-direction: column;
     gap: 40px;
     align-items: center;
-    position: fixed;
-    right: 80px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
 }
 
 .contact-photo-frame {
     position: relative;
+    transition: transform 0.4s ease;
 }
 
 .contact-photo {
-    width: 350px;
-    height: 250px;
+    width: 450px;
+    height: 300px;
     border-radius: 0;
     border: none;
     transition: all 0.4s ease;
@@ -321,6 +325,11 @@ main {
 
 .contact-photo.right-aligned {
     object-position: right center;
+}
+
+.contact-photo:hover {
+    box-shadow: 0 0 40px rgba(87, 6, 140, 0.3);
+    transform: scale(1.02);
 }
 
 /* Footer */
@@ -376,6 +385,12 @@ footer p {
     }
 }
 
+    .about-content,
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
     .about-text h2 {
         font-size: 32px;
     }
@@ -398,22 +413,6 @@ footer p {
 
     .gallery-grid {
         grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    .about-images,
-    .contact-photos {
-        position: static;
-        transform: none;
-        right: auto;
-        top: auto;
-        margin-top: 40px;
-    }
-
-    .about-content,
-    .contact-content {
-        display: block;
     }
 }
 
@@ -460,11 +459,11 @@ footer p {
         grid-template-columns: 1fr;
         gap: 16px;
     }
-
+    
     .gallery-item {
         margin-bottom: 8px;
     }
-
+    
     /* Prevent zooming on input focus */
     input, select, textarea {
         font-size: 16px;
@@ -491,15 +490,15 @@ footer p {
         height: 60px;
         font-size: 24px;
     }
-
+    
     .lightbox-prev {
         left: 20px;
     }
-
+    
     .lightbox-next {
         right: 20px;
     }
-
+    
     .lightbox-close {
         top: 20px;
         right: 20px;
@@ -507,7 +506,7 @@ footer p {
         height: 60px;
         font-size: 28px;
     }
-
+    
     .lightbox-counter {
         bottom: 20px;
         font-size: 16px;
