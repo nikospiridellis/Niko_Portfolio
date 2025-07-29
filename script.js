@@ -301,43 +301,53 @@ window.addEventListener('scroll', function() {
         }
     });
     
-    // About images scroll animation with visibility-based opacity - slower animation
+    // About images scroll animation - start centered, slide off on scroll down
     const aboutImages = document.querySelectorAll('.about-image');
     
     aboutImages.forEach(image => {
         const rect = image.getBoundingClientRect();
-        const elementHeight = rect.height;
         const windowHeight = window.innerHeight;
         
-        // Calculate how much of the element is visible
-        let visibleHeight = 0;
-        if (rect.top < windowHeight && rect.bottom > 0) {
-            const visibleTop = Math.max(0, rect.top);
-            const visibleBottom = Math.min(windowHeight, rect.bottom);
-            visibleHeight = visibleBottom - visibleTop;
-        }
+        // Check if image is in viewport
+        const imageInViewport = rect.top < windowHeight && rect.bottom > 0;
         
-        // Calculate visibility percentage
-        const visibilityPercentage = Math.min(1, Math.max(0, visibleHeight / elementHeight));
+        // Calculate scroll progress based on how far down the user has scrolled past the image
+        const scrollProgress = Math.max(0, Math.min(1, (windowHeight - rect.top) / windowHeight));
         
-        // Apply opacity and transform based on visibility percentage
-        if (visibilityPercentage > 0) {
+        if (imageInViewport) {
             image.classList.add('visible');
-            image.style.opacity = visibilityPercentage;
             
-            // Apply different transforms for primary and secondary images - slide from completely off-screen
-            if (image.closest('.about-image-primary')) {
-                image.style.transform = `translateX(${-200 * (1 - visibilityPercentage)}px)`;
+            // Start centered with full opacity, then slide off and fade as user scrolls down
+            if (scrollProgress < 0.3) {
+                // In viewport but not scrolled much - stay centered and opaque
+                image.style.opacity = 1;
+                image.style.transform = 'translateX(0)';
             } else {
-                image.style.transform = `translateX(${200 * (1 - visibilityPercentage)}px)`;
+                // User is scrolling down past the image - start sliding off and fading
+                const animationProgress = (scrollProgress - 0.3) / 0.7; // Normalize to 0-1
+                image.style.opacity = 1 - (animationProgress * 0.8); // Don't fade completely
+                
+                // Slide in opposite directions
+                if (image.closest('.about-image-primary')) {
+                    image.style.transform = `translateX(${-100 * animationProgress}px)`;
+                } else {
+                    image.style.transform = `translateX(${100 * animationProgress}px)`;
+                }
             }
         } else {
-            image.classList.remove('visible');
-            image.style.opacity = 0;
-            if (image.closest('.about-image-primary')) {
-                image.style.transform = 'translateX(-200px)';
+            // Image is out of viewport
+            if (rect.top > windowHeight) {
+                // Image is below viewport - reset to center position
+                image.style.opacity = 1;
+                image.style.transform = 'translateX(0)';
             } else {
-                image.style.transform = 'translateX(200px)';
+                // Image is above viewport - keep it slid off
+                image.style.opacity = 0.2;
+                if (image.closest('.about-image-primary')) {
+                    image.style.transform = 'translateX(-100px)';
+                } else {
+                    image.style.transform = 'translateX(100px)';
+                }
             }
         }
     });

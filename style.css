@@ -186,28 +186,48 @@ main {
     z-index: 2;
 }
 
-.about-main-title .word:hover + .word {
-    transform: translateX(60px);
+/* Professional word hover - needs most space */
+.about-main-title .word:nth-child(1):hover ~ .word {
+    transform: translateX(120px);
+}
+
+.about-main-title:has(.word:nth-child(1):hover) .word:nth-child(2),
+.about-main-title:has(.word:nth-child(1):hover) .word:nth-child(3) {
+    transform: translateX(120px);
+}
+
+/* Sports word hover - medium space needed */
+.about-main-title .word:nth-child(2):hover ~ .word {
+    transform: translateX(80px);
+}
+
+.about-main-title:has(.word:nth-child(2):hover) .word:nth-child(1) {
+    transform: translateX(-80px);
+}
+
+.about-main-title:has(.word:nth-child(2):hover) .word:nth-child(3) {
+    transform: translateX(80px);
+}
+
+/* & symbol hover - minimal space needed */
+.about-main-title .word:nth-child(3):hover ~ .word {
+    transform: translateX(30px);
+}
+
+.about-main-title:has(.word:nth-child(3):hover) .word:nth-child(1),
+.about-main-title:has(.word:nth-child(3):hover) .word:nth-child(2) {
+    transform: translateX(-30px);
+}
+
+/* Media word hover - medium space */
+.about-main-title:has(.word:nth-child(4):hover) .word:nth-child(1),
+.about-main-title:has(.word:nth-child(4):hover) .word:nth-child(2),
+.about-main-title:has(.word:nth-child(4):hover) .word:nth-child(3) {
+    transform: translateX(-70px);
 }
 
 .about-main-title:has(.word:hover) .word:not(:hover) {
     transition: all 0.3s ease;
-}
-
-.about-main-title .word:hover ~ .word {
-    transform: translateX(60px);
-}
-
-.about-main-title .word:has(+ .word:hover) {
-    transform: translateX(-60px);
-}
-
-.about-main-title:hover .word:not(:hover) {
-    transform: translateX(0);
-}
-
-.about-main-title .word:nth-child(n+2):has(~ .word:hover) {
-    transform: translateX(-60px);
 }
 
 .about-images-section {
@@ -233,20 +253,18 @@ main {
     aspect-ratio: 1;
     object-fit: cover;
     border-radius: 0;
-    transition: all 0.8s ease;
+    transition: all 0.6s ease;
     display: block;
-    opacity: 0;
-    transform: translateX(-200px);
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .about-image-primary .about-image {
     object-position: bottom;
-    transform: translateX(-200px);
 }
 
 .about-image-secondary .about-image {
     object-position: center;
-    transform: translateX(200px);
 }
 
 .about-image.visible {
