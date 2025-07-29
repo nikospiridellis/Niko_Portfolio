@@ -165,6 +165,22 @@ main {
     color: #fff;
     max-width: 90%;
     margin: 0;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+}
+
+.about-main-title.fade-out {
+    opacity: 0.3;
+}
+
+.about-main-title .word {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    cursor: default;
+}
+
+.about-main-title .word:hover {
+    transform: scale(1.5);
 }
 
 .about-images-section {
@@ -211,6 +227,18 @@ main {
     transform: translateX(0);
 }
 
+.about-image.fade-out {
+    opacity: 0.2;
+}
+
+.about-image-primary .about-image.fade-out {
+    transform: translateX(-20px);
+}
+
+.about-image-secondary .about-image.fade-out {
+    transform: translateX(20px);
+}
+
 .about-image:hover {
     box-shadow: 0 0 40px rgba(87, 6, 140, 0.3);
     transform: translateX(0) scale(1.02);
@@ -234,6 +262,11 @@ main {
 .about-paragraph.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+.about-paragraph.fade-out {
+    opacity: 0.2;
+    transform: translateY(10px);
 }
 
 .about-paragraph p {

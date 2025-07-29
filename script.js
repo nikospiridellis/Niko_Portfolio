@@ -221,6 +221,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Wrap title words in spans for individual hover effects
+document.addEventListener('DOMContentLoaded', function() {
+    const aboutTitle = document.querySelector('.about-main-title');
+    if (aboutTitle) {
+        const text = aboutTitle.innerHTML;
+        const words = text.split(/(\s+|<br>)/);
+        const wrappedWords = words.map(word => {
+            if (word.trim() && !word.includes('<br>')) {
+                return `<span class="word">${word}</span>`;
+            }
+            return word;
+        }).join('');
+        aboutTitle.innerHTML = wrappedWords;
+    }
+});
+
 // Add some interactive effects
 window.addEventListener('scroll', function() {
     const header = document.querySelector('header');
@@ -232,15 +248,35 @@ window.addEventListener('scroll', function() {
         header.style.backdropFilter = 'none';
     }
     
+    // Title fade effect on scroll
+    const aboutTitle = document.querySelector('.about-main-title');
+    if (aboutTitle) {
+        const titleRect = aboutTitle.getBoundingClientRect();
+        const titleVisible = titleRect.bottom > 0 && titleRect.top < window.innerHeight * 0.6;
+        
+        if (titleVisible) {
+            aboutTitle.classList.remove('fade-out');
+        } else {
+            aboutTitle.classList.add('fade-out');
+        }
+    }
+    
     // About paragraphs scroll animation
     const aboutParagraphs = document.querySelectorAll('.about-paragraph');
     
     aboutParagraphs.forEach(paragraph => {
         const rect = paragraph.getBoundingClientRect();
         const isVisible = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+        const isInView = rect.top < window.innerHeight * 0.9 && rect.bottom > window.innerHeight * 0.1;
         
         if (isVisible) {
             paragraph.classList.add('visible');
+        }
+        
+        if (isInView) {
+            paragraph.classList.remove('fade-out');
+        } else {
+            paragraph.classList.add('fade-out');
         }
     });
     
@@ -250,9 +286,16 @@ window.addEventListener('scroll', function() {
     aboutImages.forEach(image => {
         const rect = image.getBoundingClientRect();
         const isVisible = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+        const isInView = rect.top < window.innerHeight * 0.9 && rect.bottom > window.innerHeight * 0.1;
         
         if (isVisible) {
             image.classList.add('visible');
+        }
+        
+        if (isInView) {
+            image.classList.remove('fade-out');
+        } else {
+            image.classList.add('fade-out');
         }
     });
 });
