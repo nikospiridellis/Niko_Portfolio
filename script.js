@@ -72,31 +72,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     
     
-    // Add 3D tilt effect to about images
-    const aboutImageContainers = document.querySelectorAll('.about-image-primary, .about-image-secondary');
-    
-    aboutImageContainers.forEach(container => {
-        const image = container.querySelector('.about-image');
-        
-        container.addEventListener('mousemove', (e) => {
-            const rect = container.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            
-            const mouseX = e.clientX - centerX;
-            const mouseY = e.clientY - centerY;
-            
-            const rotateX = (mouseY / (rect.height / 2)) * -10;
-            const rotateY = (mouseX / (rect.width / 2)) * 10;
-            
-            image.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-        });
-        
-        container.addEventListener('mouseleave', () => {
-            image.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-        });
-    });
-    
     // Lightbox functionality
     const lightbox = document.getElementById('lightbox');
     const lightboxImage = document.getElementById('lightbox-image');
@@ -257,45 +232,14 @@ window.addEventListener('scroll', function() {
         header.style.backdropFilter = 'none';
     }
     
-    // About paragraphs scroll animation with different reveal effects
+    // About paragraphs scroll animation
     const aboutParagraphs = document.querySelectorAll('.about-paragraph');
-    const aboutImages = document.querySelectorAll('.about-image-primary, .about-image-secondary');
     
-    // Reveal images
-    aboutImages.forEach(image => {
-        const rect = image.getBoundingClientRect();
-        const isVisible = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
-        
-        if (isVisible && !image.classList.contains('visible')) {
-            image.classList.add('visible');
-        }
-    });
-    
-    // Reveal paragraphs with different animation effects
-    aboutParagraphs.forEach((paragraph, index) => {
+    aboutParagraphs.forEach(paragraph => {
         const rect = paragraph.getBoundingClientRect();
         const isVisible = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
         
-        if (isVisible && !paragraph.classList.contains('visible')) {
-            // Apply different animation effects based on paragraph index
-            switch (index) {
-                case 0:
-                    paragraph.classList.add('typewriter');
-                    // Remove typewriter effect after animation completes
-                    setTimeout(() => {
-                        paragraph.classList.add('complete');
-                    }, 3000);
-                    break;
-                case 1:
-                    paragraph.classList.add('slide-in-left');
-                    break;
-                case 2:
-                    paragraph.classList.add('slide-in-right');
-                    break;
-                case 3:
-                    paragraph.classList.add('fade-in-up');
-                    break;
-            }
+        if (isVisible) {
             paragraph.classList.add('visible');
         }
     });
