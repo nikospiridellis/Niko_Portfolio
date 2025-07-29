@@ -188,7 +188,7 @@ main {
 
 /* Professional word hover - largest movement (longest word) */
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(2) {
-    transform: translateX(400px); /* Professional is very long, needs huge push */
+    transform: translateX(800px); /* Professional is very long, needs huge push */
 }
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(3) {
     transform: translateX(420px); /* Professional pushes everything very far */
