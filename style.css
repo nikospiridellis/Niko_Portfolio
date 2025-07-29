@@ -175,6 +175,7 @@ main {
     padding: 40px 40px;
     width: 100%;
     margin: 40px 0;
+    perspective: 1000px;
 }
 
 .about-image-primary,
@@ -182,6 +183,44 @@ main {
     flex: 1;
     max-width: clamp(200px, 40vw, 500px);
     position: relative;
+    opacity: 0;
+    transform: translateY(50px) rotateX(10deg);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.about-image-primary.visible {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+    animation: slideInFromLeft 1s ease-out;
+}
+
+.about-image-secondary.visible {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+    animation: slideInFromRight 1s ease-out;
+    animation-delay: 0.3s;
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-60px) translateY(30px) rotateY(-15deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) translateY(0) rotateY(0deg);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(60px) translateY(30px) rotateY(15deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) translateY(0) rotateY(0deg);
+    }
 }
 
 .about-image {
@@ -202,9 +241,31 @@ main {
     object-position: center;
 }
 
+.about-image {
+    animation: float 6s ease-in-out infinite;
+}
+
+.about-image-primary .about-image {
+    animation-delay: 0s;
+}
+
+.about-image-secondary .about-image {
+    animation-delay: 1.5s;
+}
+
 .about-image:hover {
-    box-shadow: 0 0 40px rgba(87, 6, 140, 0.3);
-    transform: scale(1.02);
+    box-shadow: 0 20px 60px rgba(87, 6, 140, 0.4);
+    transform: scale(1.03) translateY(-5px);
+    animation-play-state: paused;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
 }
 
 .about-text-section {
@@ -225,6 +286,63 @@ main {
 .about-paragraph.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+.about-paragraph.typewriter {
+    overflow: hidden;
+    border-right: 2px solid rgba(87, 6, 140, 0.8);
+    white-space: nowrap;
+    animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+.about-paragraph.typewriter.complete {
+    border-right: none;
+    white-space: normal;
+    overflow: visible;
+}
+
+.about-paragraph.slide-in-left {
+    animation: slideInLeft 0.8s ease-out forwards;
+}
+
+.about-paragraph.slide-in-right {
+    animation: slideInRight 0.8s ease-out forwards;
+}
+
+.about-paragraph.fade-in-up {
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: rgba(87, 6, 140, 0.8); }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .about-paragraph p {
