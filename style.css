@@ -271,9 +271,6 @@ main {
 
 /* Contact Section */
 .contact-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
     padding: 40px 0;
 }
 
@@ -289,6 +286,13 @@ main {
     color: rgba(255, 255, 255, 0.7);
     margin-bottom: 40px;
     line-height: 1.6;
+}
+
+.contact-main-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: flex-start;
 }
 
 .contact-details {
@@ -394,8 +398,12 @@ footer p {
     }
 }
 
-    .about-content,
-    .contact-content {
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .contact-main-section {
         grid-template-columns: 1fr;
         gap: 40px;
     }
