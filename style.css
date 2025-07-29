@@ -141,10 +141,7 @@ main {
 
 /* About Section */
 .about-content {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 80px;
-    align-items: center;
+    display: block;
     padding: 80px 0;
     position: relative;
     overflow: hidden;
@@ -175,19 +172,20 @@ main {
     flex-direction: column;
     gap: 40px;
     align-items: center;
-    position: relative;
-    z-index: 2;
+    position: fixed;
+    right: 80px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
 }
 
 .about-image-primary {
     position: relative;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-origin: center center;
 }
 
 .about-image-primary .placeholder-image {
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
     border-radius: 0;
     border: none;
     display: flex;
@@ -203,13 +201,11 @@ main {
 
 .about-image-secondary {
     position: relative;
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-origin: center center;
 }
 
 .about-image-secondary .placeholder-image {
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
     border-radius: 0;
     border: none;
     display: flex;
@@ -269,9 +265,7 @@ main {
 
 /* Contact Section */
 .contact-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    display: block;
     padding: 40px 0;
     position: relative;
     overflow: hidden;
@@ -314,19 +308,20 @@ main {
     flex-direction: column;
     gap: 40px;
     align-items: center;
-    position: relative;
-    z-index: 2;
+    position: fixed;
+    right: 80px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
 }
 
 .contact-photo-frame {
     position: relative;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-origin: center center;
 }
 
 .contact-photo {
-    width: 450px;
-    height: 300px;
+    width: 350px;
+    height: 250px;
     border-radius: 0;
     border: none;
     transition: all 0.4s ease;
@@ -422,10 +417,18 @@ footer p {
 }
 
 @media (max-width: 768px) {
+    .about-images,
+    .contact-photos {
+        position: static;
+        transform: none;
+        right: auto;
+        top: auto;
+        margin-top: 40px;
+    }
+    
     .about-content,
     .contact-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
+        display: block;
     }
 }
 

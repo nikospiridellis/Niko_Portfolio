@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Add some interactive effects with enhanced scroll animations
+// Simple header background change on scroll
 window.addEventListener('scroll', function() {
     const header = document.querySelector('header');
     if (window.scrollY > 100) {
@@ -230,87 +230,5 @@ window.addEventListener('scroll', function() {
     } else {
         header.style.background = '#fff';
         header.style.backdropFilter = 'none';
-    }
-    
-    // Get current scroll position and window height for calculations
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const windowHeight = window.innerHeight;
-    
-    // About section scroll animations - simple parallax effect
-    const aboutSection = document.getElementById('about');
-    const primaryImage = document.querySelector('.about-image-primary');
-    const secondaryImage = document.querySelector('.about-image-secondary');
-    
-    if (aboutSection && primaryImage && secondaryImage) {
-        const aboutRect = aboutSection.getBoundingClientRect();
-        
-        // Only animate when section is in view
-        if (aboutRect.top < windowHeight && aboutRect.bottom > 0) {
-            // Simple parallax effect - images move slower than scroll
-            const scrollProgress = scrollTop * 0.5;
-            
-            // Primary image - moves up slower than scroll
-            primaryImage.style.transform = `translateY(${-scrollProgress * 0.3}px)`;
-            
-            // Secondary image - moves down slower than scroll  
-            secondaryImage.style.transform = `translateY(${scrollProgress * 0.2}px)`;
-        }
-    }
-    
-    // Contact section scroll animations - simple parallax effect
-    const contactSection = document.getElementById('contact');
-    const contactPhotos = document.querySelectorAll('.contact-photo-frame');
-    
-    if (contactSection && contactPhotos.length > 0) {
-        const contactRect = contactSection.getBoundingClientRect();
-        
-        // Only animate when section is in view
-        if (contactRect.top < windowHeight && contactRect.bottom > 0) {
-            // Simple parallax effect for contact photos
-            const scrollProgress = scrollTop * 0.5;
-            
-            contactPhotos.forEach((photo, index) => {
-                // Different parallax speeds for each photo
-                const parallaxSpeed = index % 2 === 0 ? 0.25 : -0.15;
-                photo.style.transform = `translateY(${scrollProgress * parallaxSpeed}px)`;
-            });
-        }
-    }
-});
-
-// Simple mouse movement parallax effect for desktop - minimal movement
-document.addEventListener('mousemove', function(e) {
-    // Only on desktop screens
-    if (window.innerWidth > 768) {
-        const mouseX = (e.clientX / window.innerWidth - 0.5) * 10;
-        const mouseY = (e.clientY / window.innerHeight - 0.5) * 5;
-        
-        // About images subtle mouse parallax
-        const primaryImage = document.querySelector('.about-image-primary');
-        const secondaryImage = document.querySelector('.about-image-secondary');
-        
-        if (primaryImage && secondaryImage) {
-            const aboutSection = document.getElementById('about');
-            const aboutRect = aboutSection?.getBoundingClientRect();
-            
-            if (aboutRect && aboutRect.top < window.innerHeight && aboutRect.bottom > 0) {
-                primaryImage.style.transform += ` translate(${mouseX}px, ${mouseY}px)`;
-                secondaryImage.style.transform += ` translate(${-mouseX * 0.5}px, ${-mouseY * 0.5}px)`;
-            }
-        }
-        
-        // Contact photos subtle mouse parallax
-        const contactPhotos = document.querySelectorAll('.contact-photo-frame');
-        if (contactPhotos.length > 0) {
-            const contactSection = document.getElementById('contact');
-            const contactRect = contactSection?.getBoundingClientRect();
-            
-            if (contactRect && contactRect.top < window.innerHeight && contactRect.bottom > 0) {
-                contactPhotos.forEach((photo, index) => {
-                    const multiplier = index % 2 === 0 ? 1 : -0.5;
-                    photo.style.transform += ` translate(${mouseX * multiplier}px, ${mouseY * multiplier}px)`;
-                });
-            }
-        }
     }
 });
