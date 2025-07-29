@@ -188,7 +188,6 @@ main {
 
 .about-image-primary {
     position: relative;
-    transition: transform 0.6s ease-out;
 }
 
 .about-image-primary .placeholder-image {
@@ -210,7 +209,6 @@ main {
 
 .about-image-secondary {
     position: relative;
-    transition: transform 0.8s ease-out;
 }
 
 .about-image-secondary .placeholder-image {
@@ -338,7 +336,6 @@ main {
 
 .contact-photo-frame {
     position: relative;
-    transition: transform 0.4s ease;
 }
 
 .contact-photo {
@@ -393,6 +390,86 @@ footer p {
     color: rgba(255, 255, 255, 0.5);
     font-size: 12px;
     letter-spacing: 0.4px;
+}
+
+/* Responsive Image Sizing */
+@media (max-width: 1400px) {
+    .about-images,
+    .contact-photos {
+        width: 250px;
+    }
+    
+    .about-image-primary .placeholder-image,
+    .about-image-secondary .placeholder-image {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .contact-photo {
+        width: 250px;
+        height: 167px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .about-images,
+    .contact-photos {
+        width: 200px;
+    }
+    
+    .about-image-primary .placeholder-image,
+    .about-image-secondary .placeholder-image {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .contact-photo {
+        width: 200px;
+        height: 134px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .about-images,
+    .contact-photos {
+        width: 160px;
+        right: 20px;
+    }
+    
+    .about-image-primary .placeholder-image,
+    .about-image-secondary .placeholder-image {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .contact-photo {
+        width: 160px;
+        height: 107px;
+    }
+}
+
+@media (max-width: 900px) {
+    .about-images,
+    .contact-photos {
+        width: 120px;
+        right: 15px;
+    }
+    
+    .about-image-primary .placeholder-image,
+    .about-image-secondary .placeholder-image {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .contact-photo {
+        width: 120px;
+        height: 80px;
+    }
+    
+    .about-text,
+    .contact-info {
+        margin-right: 150px;
+    }
 }
 
 /* Responsive Design */
