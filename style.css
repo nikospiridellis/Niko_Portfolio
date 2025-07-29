@@ -186,48 +186,48 @@ main {
     z-index: 2;
 }
 
-/* Professional word hover - very large spacing to prevent overlap */
+/* Professional word hover - largest movement (longest word) */
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(2) {
-    transform: translateX(180px); /* Much larger spacing for Professional */
+    transform: translateX(220px); /* Professional is very long, pushes far */
 }
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(3) {
-    transform: translateX(190px); /* Professional width + Sports space */
+    transform: translateX(240px); /* Professional pushes everything far */
 }
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(4) {
-    transform: translateX(200px); /* Professional width + Sports + & space */
+    transform: translateX(250px); /* Professional has maximum push */
 }
 
-/* Sports word hover - minimal spacing */
+/* Sports word hover - minimal movement (short word) */
 .about-main-title:has(.word:nth-child(2):hover) .word:nth-child(1) {
-    transform: translateX(-15px); /* Minimal spacing for Sports */
+    transform: translateX(-25px); /* Sports is short, minimal push */
 }
 .about-main-title:has(.word:nth-child(2):hover) .word:nth-child(3) {
-    transform: translateX(15px); /* Minimal spacing for Sports */
+    transform: translateX(25px); /* Sports minimal movement */
 }
 .about-main-title:has(.word:nth-child(2):hover) .word:nth-child(4) {
-    transform: translateX(20px); /* Minimal Sports movement */
+    transform: translateX(30px); /* Sports minimal push */
 }
 
-/* & symbol hover - minimal adjustment */
+/* & symbol hover - smallest movement (shortest word) */
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(1) {
-    transform: translateX(-8px);
+    transform: translateX(-12px); /* & is tiny, barely moves others */
 }
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(2) {
-    transform: translateX(-8px);
+    transform: translateX(-12px);
 }
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(4) {
-    transform: translateX(8px); /* Minimal space for & */
+    transform: translateX(12px); /* & has minimal impact */
 }
 
-/* Media word hover - very large spacing for Photographer */
+/* Media word hover - medium-large movement (medium-long word) */
 .about-main-title:has(.word:nth-child(4):hover) .word:nth-child(1) {
-    transform: translateX(-150px); /* Much larger spacing for Photographer */
+    transform: translateX(-180px); /* Media is medium-long, significant push */
 }
 .about-main-title:has(.word:nth-child(4):hover) .word:nth-child(2) {
-    transform: translateX(-150px);
+    transform: translateX(-180px);
 }
 .about-main-title:has(.word:nth-child(4):hover) .word:nth-child(3) {
-    transform: translateX(-140px);
+    transform: translateX(-170px); /* Media decent movement */
 }
 
 .about-main-title:has(.word:hover) .word:not(:hover) {
