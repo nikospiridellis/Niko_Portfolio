@@ -38,18 +38,18 @@ nav {
     header {
         padding: 12px 16px;
     }
-    
+
     nav {
         flex-direction: column;
         gap: 12px;
         align-items: center;
     }
-    
+
     .nav-links {
         gap: 16px;
         justify-content: center;
     }
-    
+
     .nav-link {
         font-size: 12px;
         padding: 4px 8px;
@@ -219,16 +219,6 @@ main {
     object-position: center;
 }
 
-.about-image-primary .placeholder-image:hover {
-    box-shadow: 0 0 40px rgba(87, 6, 140, 0.3);
-    transform: scale(1.02);
-}
-
-.about-image-secondary .placeholder-image:hover {
-    box-shadow: 0 0 40px rgba(87, 6, 140, 0.2);
-    transform: scale(1.02);
-}
-
 /* Gallery Section */
 .gallery-grid {
     display: grid;
@@ -333,11 +323,6 @@ main {
     object-position: right center;
 }
 
-.contact-photo:hover {
-    box-shadow: 0 0 40px rgba(87, 6, 140, 0.3);
-    transform: scale(1.02);
-}
-
 /* Footer */
 footer {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -425,7 +410,7 @@ footer p {
         top: auto;
         margin-top: 40px;
     }
-    
+
     .about-content,
     .contact-content {
         display: block;
@@ -475,11 +460,11 @@ footer p {
         grid-template-columns: 1fr;
         gap: 16px;
     }
-    
+
     .gallery-item {
         margin-bottom: 8px;
     }
-    
+
     /* Prevent zooming on input focus */
     input, select, textarea {
         font-size: 16px;
@@ -506,15 +491,15 @@ footer p {
         height: 60px;
         font-size: 24px;
     }
-    
+
     .lightbox-prev {
         left: 20px;
     }
-    
+
     .lightbox-next {
         right: 20px;
     }
-    
+
     .lightbox-close {
         top: 20px;
         right: 20px;
@@ -522,7 +507,7 @@ footer p {
         height: 60px;
         font-size: 28px;
     }
-    
+
     .lightbox-counter {
         bottom: 20px;
         font-size: 16px;
