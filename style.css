@@ -188,13 +188,13 @@ main {
 
 /* Professional word hover - largest movement (longest word) */
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(2) {
-    transform: translateX(220px); /* Professional is very long, pushes far */
+    transform: translateX(400px); /* Professional is very long, needs huge push */
 }
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(3) {
-    transform: translateX(240px); /* Professional pushes everything far */
+    transform: translateX(420px); /* Professional pushes everything very far */
 }
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(4) {
-    transform: translateX(250px); /* Professional has maximum push */
+    transform: translateX(440px); /* Professional has maximum push to prevent overlap */
 }
 
 /* Sports word hover - minimal movement (short word) */
