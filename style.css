@@ -38,18 +38,18 @@ nav {
     header {
         padding: 12px 16px;
     }
-    
+
     nav {
         flex-direction: column;
         gap: 12px;
         align-items: center;
     }
-    
+
     .nav-links {
         gap: 16px;
         justify-content: center;
     }
-    
+
     .nav-link {
         font-size: 12px;
         padding: 4px 8px;
@@ -140,91 +140,99 @@ main {
 }
 
 /* About Section */
-.about-content {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 80px;
-    align-items: center;
-    padding: 80px 0;
+.about-container {
+    width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
-.about-text {
-    max-width: 600px;
-}
-
-.about-text h2 {
-    font-size: 48px;
-    font-weight: 400;
-    line-height: 1.2;
-    margin-bottom: 40px;
-    letter-spacing: -0.8px;
-}
-
-.about-text p {
-    font-size: 18px;
-    line-height: 1.8;
-    margin-bottom: 24px;
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 300;
-}
-
-.about-images {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    align-items: center;
-}
-
-.about-image-primary {
-    position: relative;
-    transition: transform 0.6s ease-out;
-}
-
-.about-image-primary .placeholder-image {
-    width: 500px;
-    height: 500px;
-    border-radius: 0;
-    border: none;
+.about-title-section {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    padding: 80px 40px;
+    text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 18px;
-    background: transparent;
-    transition: all 0.4s ease;
+    min-height: 40vh;
+}
+
+.about-main-title {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #fff;
+    max-width: 90%;
+    margin: 0;
+}
+
+.about-images-section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: clamp(20px, 4vw, 60px);
+    padding: 80px 40px;
+    width: 100%;
+    margin: 80px 0;
+}
+
+.about-image-primary,
+.about-image-secondary {
+    flex: 1;
+    max-width: clamp(200px, 40vw, 500px);
+    position: relative;
+}
+
+.about-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
     object-fit: cover;
+    border-radius: 0;
+    transition: all 0.4s ease;
+    display: block;
+}
+
+.about-image-primary .about-image {
     object-position: bottom;
 }
 
-.about-image-secondary {
-    position: relative;
-    transition: transform 0.8s ease-out;
-}
-
-.about-image-secondary .placeholder-image {
-    width: 500px;
-    height: 500px;
-    border-radius: 0;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 16px;
-    background: transparent;
-    transition: all 0.4s ease;
-    object-fit: cover;
+.about-image-secondary .about-image {
     object-position: center;
 }
 
-.about-image-primary .placeholder-image:hover {
+.about-image:hover {
     box-shadow: 0 0 40px rgba(87, 6, 140, 0.3);
     transform: scale(1.02);
 }
 
-.about-image-secondary .placeholder-image:hover {
-    box-shadow: 0 0 40px rgba(87, 6, 140, 0.2);
-    transform: scale(1.02);
+.about-text-section {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.about-paragraph {
+    margin-bottom: 60px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+}
+
+.about-paragraph.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.about-paragraph p {
+    font-size: clamp(16px, 2.2vw, 20px);
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 300;
+    margin: 0;
 }
 
 /* Gallery Section */
@@ -459,11 +467,11 @@ footer p {
         grid-template-columns: 1fr;
         gap: 16px;
     }
-    
+
     .gallery-item {
         margin-bottom: 8px;
     }
-    
+
     /* Prevent zooming on input focus */
     input, select, textarea {
         font-size: 16px;
@@ -490,15 +498,15 @@ footer p {
         height: 60px;
         font-size: 24px;
     }
-    
+
     .lightbox-prev {
         left: 20px;
     }
-    
+
     .lightbox-next {
         right: 20px;
     }
-    
+
     .lightbox-close {
         top: 20px;
         right: 20px;
@@ -506,7 +514,7 @@ footer p {
         height: 60px;
         font-size: 28px;
     }
-    
+
     .lightbox-counter {
         bottom: 20px;
         font-size: 16px;
