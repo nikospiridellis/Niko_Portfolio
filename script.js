@@ -243,4 +243,16 @@ window.addEventListener('scroll', function() {
             paragraph.classList.add('visible');
         }
     });
+    
+    // About images scroll animation
+    const aboutImages = document.querySelectorAll('.about-image');
+    
+    aboutImages.forEach(image => {
+        const rect = image.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+        
+        if (isVisible) {
+            image.classList.add('visible');
+        }
+    });
 });
