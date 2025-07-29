@@ -186,48 +186,48 @@ main {
     z-index: 2;
 }
 
-/* Professional word hover - very large spacing to prevent overlap */
+/* Professional word hover - words move towards Professional */
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(2) {
-    transform: translateX(180px); /* Much larger spacing for Professional */
+    transform: translateX(-150px); /* Sports moves towards Professional */
 }
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(3) {
-    transform: translateX(190px); /* Professional width + Sports space */
+    transform: translateX(-160px); /* & moves towards Professional */
 }
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(4) {
-    transform: translateX(200px); /* Professional width + Sports + & space */
+    transform: translateX(-170px); /* Media moves towards Professional */
 }
 
-/* Sports word hover - minimal spacing */
+/* Sports word hover - words move towards Sports */
 .about-main-title:has(.word:nth-child(2):hover) .word:nth-child(1) {
-    transform: translateX(-15px); /* Minimal spacing for Sports */
+    transform: translateX(120px); /* Professional moves towards Sports */
 }
 .about-main-title:has(.word:nth-child(2):hover) .word:nth-child(3) {
-    transform: translateX(15px); /* Minimal spacing for Sports */
+    transform: translateX(-80px); /* & moves towards Sports */
 }
 .about-main-title:has(.word:nth-child(2):hover) .word:nth-child(4) {
-    transform: translateX(20px); /* Minimal Sports movement */
+    transform: translateX(-90px); /* Media moves towards Sports */
 }
 
-/* & symbol hover - minimal adjustment */
+/* & symbol hover - words move towards & */
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(1) {
-    transform: translateX(-8px);
+    transform: translateX(100px); /* Professional moves towards & */
 }
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(2) {
-    transform: translateX(-8px);
+    transform: translateX(60px); /* Sports moves towards & */
 }
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(4) {
-    transform: translateX(8px); /* Minimal space for & */
+    transform: translateX(-40px); /* Media moves towards & */
 }
 
-/* Media word hover - very large spacing for Photographer */
+/* Media word hover - words move towards Media */
 .about-main-title:has(.word:nth-child(4):hover) .word:nth-child(1) {
-    transform: translateX(-150px); /* Much larger spacing for Photographer */
+    transform: translateX(140px); /* Professional moves towards Media */
 }
 .about-main-title:has(.word:nth-child(4):hover) .word:nth-child(2) {
-    transform: translateX(-150px);
+    transform: translateX(100px); /* Sports moves towards Media */
 }
 .about-main-title:has(.word:nth-child(4):hover) .word:nth-child(3) {
-    transform: translateX(-140px);
+    transform: translateX(50px); /* & moves towards Media */
 }
 
 .about-main-title:has(.word:hover) .word:not(:hover) {
