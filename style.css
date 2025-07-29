@@ -188,24 +188,24 @@ main {
 
 /* Professional word hover - largest movement (longest word) */
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(2) {
-    transform: translateX(120px); /* Increased movement for Professional */
+    transform: translateX(60px); /* Minimal movement to avoid huge gaps */
 }
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(3) {
-    transform: translateX(120px); /* Increased movement for Professional */
+    transform: translateX(60px); /* Minimal movement to avoid huge gaps */
 }
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(4) {
-    transform: translateX(120px); /* Increased movement for Professional */
+    transform: translateX(60px); /* Minimal movement to avoid huge gaps */
 }
 
 /* Sports word hover - medium movement */
 .about-main-title:has(.word:nth-child(2):hover) .word:nth-child(1) {
-    transform: translateX(-80px); /* Increased movement for Street */
+    transform: translateX(-30px); /* Minimal movement to avoid huge gaps */
 }
 .about-main-title:has(.word:nth-child(2):hover) .word:nth-child(3) {
-    transform: translateX(80px); /* Increased movement for Street */
+    transform: translateX(30px); /* Minimal movement to avoid huge gaps */
 }
 .about-main-title:has(.word:nth-child(2):hover) .word:nth-child(4) {
-    transform: translateX(80px); /* Increased movement for Street */
+    transform: translateX(30px); /* Minimal movement to avoid huge gaps */
 }
 
 /* & symbol hover - minimal movement (shortest word) */
@@ -221,13 +221,13 @@ main {
 
 /* Media word hover - large movement */
 .about-main-title:has(.word:nth-child(4):hover) .word:nth-child(1) {
-    transform: translateX(-100px); /* Increased movement for Photographer */
+    transform: translateX(-40px); /* Minimal movement to avoid huge gaps */
 }
 .about-main-title:has(.word:nth-child(4):hover) .word:nth-child(2) {
-    transform: translateX(-100px); /* Increased movement for Photographer */
+    transform: translateX(-40px); /* Minimal movement to avoid huge gaps */
 }
 .about-main-title:has(.word:nth-child(4):hover) .word:nth-child(3) {
-    transform: translateX(-100px); /* Increased movement for Photographer */
+    transform: translateX(-40px); /* Minimal movement to avoid huge gaps */
 }
 
 .about-main-title:has(.word:hover) .word:not(:hover) {
