@@ -186,44 +186,48 @@ main {
     z-index: 2;
 }
 
-/* Professional word hover - needs most space */
-.about-main-title .word:nth-child(1):hover ~ .word {
-    transform: translateX(120px);
+/* Professional word hover - calculate precise spacing to maintain gaps */
+.about-main-title:has(.word:nth-child(1):hover) .word:nth-child(2) {
+    transform: translateX(75px); /* Half of Professional's extra width */
 }
-
-.about-main-title:has(.word:nth-child(1):hover) .word:nth-child(2),
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(3) {
-    transform: translateX(120px);
+    transform: translateX(85px); /* Professional width + Sports space */
+}
+.about-main-title:has(.word:nth-child(1):hover) .word:nth-child(4) {
+    transform: translateX(95px); /* Professional width + Sports + & space */
 }
 
-/* Sports word hover - medium space needed */
-.about-main-title .word:nth-child(2):hover ~ .word {
-    transform: translateX(80px);
-}
-
+/* Sports word hover */
 .about-main-title:has(.word:nth-child(2):hover) .word:nth-child(1) {
-    transform: translateX(-80px);
+    transform: translateX(-40px); /* Half of Sports extra width */
 }
-
 .about-main-title:has(.word:nth-child(2):hover) .word:nth-child(3) {
-    transform: translateX(80px);
+    transform: translateX(40px); /* Half of Sports extra width */
+}
+.about-main-title:has(.word:nth-child(2):hover) .word:nth-child(4) {
+    transform: translateX(50px); /* Sports width + & space */
 }
 
-/* & symbol hover - minimal space needed */
-.about-main-title .word:nth-child(3):hover ~ .word {
-    transform: translateX(30px);
+/* & symbol hover - minimal adjustment */
+.about-main-title:has(.word:nth-child(3):hover) .word:nth-child(1) {
+    transform: translateX(-8px);
 }
-
-.about-main-title:has(.word:nth-child(3):hover) .word:nth-child(1),
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(2) {
-    transform: translateX(-30px);
+    transform: translateX(-8px);
+}
+.about-main-title:has(.word:nth-child(3):hover) .word:nth-child(4) {
+    transform: translateX(8px); /* Minimal space for & */
 }
 
-/* Media word hover - medium space */
-.about-main-title:has(.word:nth-child(4):hover) .word:nth-child(1),
-.about-main-title:has(.word:nth-child(4):hover) .word:nth-child(2),
+/* Media word hover */
+.about-main-title:has(.word:nth-child(4):hover) .word:nth-child(1) {
+    transform: translateX(-45px);
+}
+.about-main-title:has(.word:nth-child(4):hover) .word:nth-child(2) {
+    transform: translateX(-45px);
+}
 .about-main-title:has(.word:nth-child(4):hover) .word:nth-child(3) {
-    transform: translateX(-70px);
+    transform: translateX(-35px);
 }
 
 .about-main-title:has(.word:hover) .word:not(:hover) {

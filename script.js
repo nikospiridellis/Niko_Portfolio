@@ -288,44 +288,73 @@ window.addEventListener('scroll', function() {
             paragraph.classList.add('visible');
             paragraph.style.opacity = visibilityPercentage;
             
-            // Fade from top when scrolling up, from bottom when scrolling down
-            if (isScrollingDown) {
+            // Determine if we're scrolling up and element is coming from above
+            const comingFromAbove = rect.bottom < windowHeight && rect.top < windowHeight * 0.3;
+            
+            if (comingFromAbove) {
+                // Scrolling up - fade in from above
+                paragraph.style.transform = `translateY(${-30 * (1 - visibilityPercentage)}px)`;
+            } else if (isScrollingDown) {
+                // Scrolling down - fade in from below
                 paragraph.style.transform = `translateY(${30 * (1 - visibilityPercentage)}px)`;
             } else {
+                // Default behavior
                 paragraph.style.transform = `translateY(${-30 * (1 - visibilityPercentage)}px)`;
             }
         } else {
             paragraph.classList.remove('visible');
             paragraph.style.opacity = 0;
-            paragraph.style.transform = isScrollingDown ? 'translateY(30px)' : 'translateY(-30px)';
+            
+            // Set initial transform based on element position
+            const comingFromAbove = rect.bottom < windowHeight;
+            paragraph.style.transform = comingFromAbove ? 'translateY(-30px)' : 'translateY(30px)';
         }
     });
     
-    // About images scroll animation - start centered, slide off on scroll down
+    // About images scroll animation - start centered, slide off when halfway off screen
     const aboutImages = document.querySelectorAll('.about-image');
     
     aboutImages.forEach(image => {
         const rect = image.getBoundingClientRect();
         const windowHeight = window.innerHeight;
+        const elementHeight = rect.height;
         
         // Check if image is in viewport
         const imageInViewport = rect.top < windowHeight && rect.bottom > 0;
         
-        // Calculate scroll progress based on how far down the user has scrolled past the image
-        const scrollProgress = Math.max(0, Math.min(1, (windowHeight - rect.top) / windowHeight));
+        // Calculate how much of the element is visible
+        let visibleHeight = 0;
+        if (rect.top < windowHeight && rect.bottom > 0) {
+            const visibleTop = Math.max(0, rect.top);
+            const visibleBottom = Math.min(windowHeight, rect.bottom);
+            visibleHeight = visibleBottom - visibleTop;
+        }
+        
+        // Calculate visibility percentage
+        const visibilityPercentage = Math.min(1, Math.max(0, visibleHeight / elementHeight));
+        
+        // Determine scroll direction
+        const isScrollingUp = rect.top > windowHeight * 0.3;
         
         if (imageInViewport) {
             image.classList.add('visible');
             
-            // Start centered with full opacity, then slide off and fade as user scrolls down
-            if (scrollProgress < 0.3) {
-                // In viewport but not scrolled much - stay centered and opaque
+            // Only start sliding off when less than 50% visible (halfway off screen)
+            if (visibilityPercentage >= 0.5) {
+                // More than half visible - stay centered and opaque
                 image.style.opacity = 1;
                 image.style.transform = 'translateX(0)';
             } else {
-                // User is scrolling down past the image - start sliding off and fading
-                const animationProgress = (scrollProgress - 0.3) / 0.7; // Normalize to 0-1
-                image.style.opacity = 1 - (animationProgress * 0.8); // Don't fade completely
+                // Less than half visible - start sliding off and fading
+                const animationProgress = 1 - (visibilityPercentage / 0.5); // Normalize to 0-1
+                
+                if (isScrollingUp) {
+                    // Scrolling up - fade from black
+                    image.style.opacity = visibilityPercentage / 0.5; // Fade in from black
+                } else {
+                    // Scrolling down - normal fade
+                    image.style.opacity = 1 - (animationProgress * 0.8);
+                }
                 
                 // Slide in opposite directions
                 if (image.closest('.about-image-primary')) {
@@ -340,9 +369,9 @@ window.addEventListener('scroll', function() {
                 // Image is below viewport - reset to center position
                 image.style.opacity = 1;
                 image.style.transform = 'translateX(0)';
-            } else {
-                // Image is above viewport - keep it slid off
-                image.style.opacity = 0.2;
+            } else if (rect.bottom < 0) {
+                // Image is above viewport - fade to black when scrolling up
+                image.style.opacity = 0;
                 if (image.closest('.about-image-primary')) {
                     image.style.transform = 'translateX(-100px)';
                 } else {
