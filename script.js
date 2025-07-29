@@ -221,47 +221,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Responsive image sizing function
-function updateImageSizes() {
-    const aboutImages = document.querySelector('.about-images');
-    const contactPhotos = document.querySelector('.contact-photos');
-    const windowWidth = window.innerWidth;
-    
-    // Calculate image width based on available space
-    let imageWidth;
-    if (windowWidth > 1400) {
-        imageWidth = 300;
-    } else if (windowWidth > 1200) {
-        imageWidth = 250;
-    } else if (windowWidth > 1000) {
-        imageWidth = 200;
-    } else if (windowWidth > 900) {
-        imageWidth = 160;
-    } else {
-        imageWidth = 120;
-    }
-    
-    // Update about images
-    if (aboutImages) {
-        aboutImages.style.width = imageWidth + 'px';
-        const aboutImageElements = aboutImages.querySelectorAll('.placeholder-image');
-        aboutImageElements.forEach(img => {
-            img.style.width = imageWidth + 'px';
-            img.style.height = imageWidth + 'px';
-        });
-    }
-    
-    // Update contact photos
-    if (contactPhotos) {
-        contactPhotos.style.width = imageWidth + 'px';
-        const contactImageElements = contactPhotos.querySelectorAll('.contact-photo');
-        contactImageElements.forEach(img => {
-            img.style.width = imageWidth + 'px';
-            img.style.height = (imageWidth * 0.67) + 'px'; // Maintain aspect ratio
-        });
-    }
-}
-
 // Add some interactive effects
 window.addEventListener('scroll', function() {
     const header = document.querySelector('header');
@@ -273,11 +232,25 @@ window.addEventListener('scroll', function() {
         header.style.backdropFilter = 'none';
     }
     
-    // Update image sizes based on window width
-    updateImageSizes();
-});
-
-// Add resize listener for responsive images
-window.addEventListener('resize', function() {
-    updateImageSizes();
+    // About images scroll animation
+    const aboutSection = document.getElementById('about');
+    const primaryImage = document.querySelector('.about-image-primary');
+    const secondaryImage = document.querySelector('.about-image-secondary');
+    
+    if (aboutSection && aboutSection.classList.contains('active') && primaryImage && secondaryImage) {
+        const scrollProgress = Math.min(window.scrollY / 500, 1);
+        
+        // Animate primary image from left
+        const primaryTranslateX = Math.max(0, 100 - (scrollProgress * 120));
+        primaryImage.style.transform = `translateX(-${primaryTranslateX}px)`;
+        
+        // Animate secondary image from right
+        const secondaryTranslateX = Math.max(0, 100 - (scrollProgress * 120));
+        secondaryImage.style.transform = `translateX(${secondaryTranslateX}px)`;
+        
+        // Add subtle rotation based on scroll
+        const rotation = scrollProgress * 2;
+        primaryImage.style.transform += ` rotate(${rotation}deg)`;
+        secondaryImage.style.transform += ` rotate(-${rotation}deg)`;
+    }
 });
