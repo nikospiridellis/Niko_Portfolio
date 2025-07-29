@@ -221,47 +221,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Split-screen storytelling interaction
-document.addEventListener('DOMContentLoaded', function() {
-    const splitContainer = document.querySelector('.about-split-container');
-    const splitSides = document.querySelectorAll('.about-split-side');
-    
-    if (splitContainer && splitSides.length > 0) {
-        splitContainer.addEventListener('mousemove', function(e) {
-            const containerRect = this.getBoundingClientRect();
-            const mouseX = e.clientX - containerRect.left;
-            const containerWidth = containerRect.width;
-            const centerPoint = containerWidth / 2;
-            
-            // Determine which side is active based on mouse position
-            if (mouseX < centerPoint) {
-                // Left side (sports) is active
-                splitSides[0].classList.add('active');
-                splitSides[0].classList.remove('inactive');
-                splitSides[1].classList.add('inactive');
-                splitSides[1].classList.remove('active');
-            } else {
-                // Right side (photography) is active
-                splitSides[1].classList.add('active');
-                splitSides[1].classList.remove('inactive');
-                splitSides[0].classList.add('inactive');
-                splitSides[0].classList.remove('active');
-            }
-        });
-        
-        // Initialize with sports side active
-        splitSides[0].classList.add('active');
-        splitSides[1].classList.add('inactive');
-        
-        // Reset on mouse leave
-        splitContainer.addEventListener('mouseleave', function() {
-            splitSides.forEach(side => {
-                side.classList.remove('active', 'inactive');
-            });
-        });
-    }
-});
-
 // Add some interactive effects
 window.addEventListener('scroll', function() {
     const header = document.querySelector('header');
