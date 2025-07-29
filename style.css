@@ -311,9 +311,10 @@ main {
 /* Contact Photos */
 .contact-photos {
     display: flex;
-    flex-direction: column;
-    gap: 40px;
+    flex-direction: row;
+    gap: 20px;
     align-items: center;
+    justify-content: center;
 }
 
 .contact-photo-frame {
@@ -322,8 +323,8 @@ main {
 }
 
 .contact-photo {
-    width: 450px;
-    height: 300px;
+    width: 300px;
+    height: 250px;
     border-radius: 0;
     border: none;
     transition: all 0.4s ease;
@@ -455,6 +456,11 @@ footer p {
         width: 280px;
         height: 280px;
         font-size: 12px;
+    }
+
+    .contact-photos {
+        flex-direction: column;
+        gap: 20px;
     }
 
     .contact-photo {
