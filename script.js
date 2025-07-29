@@ -280,19 +280,28 @@ window.addEventListener('scroll', function() {
         // Calculate visibility percentage
         const visibilityPercentage = Math.min(1, Math.max(0, visibleHeight / elementHeight));
         
+        // Determine scroll direction based on element position
+        const isScrollingDown = rect.top < windowHeight * 0.5;
+        
         // Apply opacity based on visibility percentage
         if (visibilityPercentage > 0) {
             paragraph.classList.add('visible');
             paragraph.style.opacity = visibilityPercentage;
-            paragraph.style.transform = `translateY(${30 * (1 - visibilityPercentage)}px)`;
+            
+            // Fade from top when scrolling up, from bottom when scrolling down
+            if (isScrollingDown) {
+                paragraph.style.transform = `translateY(${30 * (1 - visibilityPercentage)}px)`;
+            } else {
+                paragraph.style.transform = `translateY(${-30 * (1 - visibilityPercentage)}px)`;
+            }
         } else {
             paragraph.classList.remove('visible');
             paragraph.style.opacity = 0;
-            paragraph.style.transform = 'translateY(30px)';
+            paragraph.style.transform = isScrollingDown ? 'translateY(30px)' : 'translateY(-30px)';
         }
     });
     
-    // About images scroll animation with visibility-based opacity
+    // About images scroll animation with visibility-based opacity - slower animation
     const aboutImages = document.querySelectorAll('.about-image');
     
     aboutImages.forEach(image => {
@@ -316,19 +325,19 @@ window.addEventListener('scroll', function() {
             image.classList.add('visible');
             image.style.opacity = visibilityPercentage;
             
-            // Apply different transforms for primary and secondary images
+            // Apply different transforms for primary and secondary images - slide from completely off-screen
             if (image.closest('.about-image-primary')) {
-                image.style.transform = `translateX(${-50 * (1 - visibilityPercentage)}px)`;
+                image.style.transform = `translateX(${-200 * (1 - visibilityPercentage)}px)`;
             } else {
-                image.style.transform = `translateX(${50 * (1 - visibilityPercentage)}px)`;
+                image.style.transform = `translateX(${200 * (1 - visibilityPercentage)}px)`;
             }
         } else {
             image.classList.remove('visible');
             image.style.opacity = 0;
             if (image.closest('.about-image-primary')) {
-                image.style.transform = 'translateX(-50px)';
+                image.style.transform = 'translateX(-200px)';
             } else {
-                image.style.transform = 'translateX(50px)';
+                image.style.transform = 'translateX(200px)';
             }
         }
     });
