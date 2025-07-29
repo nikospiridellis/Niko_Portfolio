@@ -186,48 +186,48 @@ main {
     z-index: 2;
 }
 
-/* Professional word hover - largest movement (longest word) */
+/* Professional word hover - minimal movement */
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(2) {
-    transform: translateX(60px); /* Minimal movement to avoid huge gaps */
+    transform: translateX(15px); /* Much smaller gap for Professional */
 }
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(3) {
-    transform: translateX(60px); /* Minimal movement to avoid huge gaps */
+    transform: translateX(15px); /* Much smaller gap for Professional */
 }
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(4) {
-    transform: translateX(60px); /* Minimal movement to avoid huge gaps */
+    transform: translateX(15px); /* Much smaller gap for Professional */
 }
 
-/* Sports word hover - medium movement */
+/* Sports word hover - increased movement, Street hover - decreased movement */
 .about-main-title:has(.word:nth-child(2):hover) .word:nth-child(1) {
-    transform: translateX(-30px); /* Minimal movement to avoid huge gaps */
+    transform: translateX(-15px); /* Much smaller gap for Street */
 }
 .about-main-title:has(.word:nth-child(2):hover) .word:nth-child(3) {
-    transform: translateX(30px); /* Minimal movement to avoid huge gaps */
+    transform: translateX(80px); /* Larger gap for Sports */
 }
 .about-main-title:has(.word:nth-child(2):hover) .word:nth-child(4) {
-    transform: translateX(30px); /* Minimal movement to avoid huge gaps */
+    transform: translateX(80px); /* Larger gap for Sports */
 }
 
-/* & symbol hover - minimal movement (shortest word) */
+/* & symbol hover - increased movement */
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(1) {
-    transform: translateX(-20px); /* Minimal movement to avoid huge gaps */
+    transform: translateX(-60px); /* Larger gap for & symbol */
 }
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(2) {
-    transform: translateX(-20px); /* Minimal movement to avoid huge gaps */
+    transform: translateX(-60px); /* Larger gap for & symbol */
 }
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(4) {
-    transform: translateX(20px); /* Minimal movement to avoid huge gaps */
+    transform: translateX(60px); /* Larger gap for & symbol */
 }
 
-/* Media word hover - large movement */
+/* Media word hover - increased movement, Photographer hover - decreased movement */
 .about-main-title:has(.word:nth-child(4):hover) .word:nth-child(1) {
-    transform: translateX(-40px); /* Minimal movement to avoid huge gaps */
+    transform: translateX(-15px); /* Much smaller gap for Photographer */
 }
 .about-main-title:has(.word:nth-child(4):hover) .word:nth-child(2) {
-    transform: translateX(-40px); /* Minimal movement to avoid huge gaps */
+    transform: translateX(-15px); /* Much smaller gap for Photographer */
 }
 .about-main-title:has(.word:nth-child(4):hover) .word:nth-child(3) {
-    transform: translateX(-40px); /* Minimal movement to avoid huge gaps */
+    transform: translateX(-100px); /* Larger gap for Media */
 }
 
 .about-main-title:has(.word:hover) .word:not(:hover) {
