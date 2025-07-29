@@ -188,46 +188,46 @@ main {
 
 /* Professional word hover - largest movement (longest word) */
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(2) {
-    transform: translateX(800px); /* Professional is very long, needs huge push */
+    transform: translateX(400px); /* All words move same distance to maintain spacing */
 }
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(3) {
-    transform: translateX(420px); /* Professional pushes everything very far */
+    transform: translateX(400px); /* All words move same distance to maintain spacing */
 }
 .about-main-title:has(.word:nth-child(1):hover) .word:nth-child(4) {
-    transform: translateX(440px); /* Professional has maximum push to prevent overlap */
+    transform: translateX(400px); /* All words move same distance to maintain spacing */
 }
 
-/* Sports word hover - minimal movement (short word) */
+/* Sports word hover - medium movement */
 .about-main-title:has(.word:nth-child(2):hover) .word:nth-child(1) {
-    transform: translateX(-25px); /* Sports is short, minimal push */
+    transform: translateX(-120px); /* All words move same distance to maintain spacing */
 }
 .about-main-title:has(.word:nth-child(2):hover) .word:nth-child(3) {
-    transform: translateX(25px); /* Sports minimal movement */
+    transform: translateX(120px); /* All words move same distance to maintain spacing */
 }
 .about-main-title:has(.word:nth-child(2):hover) .word:nth-child(4) {
-    transform: translateX(30px); /* Sports minimal push */
+    transform: translateX(120px); /* All words move same distance to maintain spacing */
 }
 
-/* & symbol hover - smallest movement (shortest word) */
+/* & symbol hover - minimal movement (shortest word) */
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(1) {
-    transform: translateX(-12px); /* & is tiny, barely moves others */
+    transform: translateX(-50px); /* All words move same distance to maintain spacing */
 }
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(2) {
-    transform: translateX(-12px);
+    transform: translateX(-50px); /* All words move same distance to maintain spacing */
 }
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(4) {
-    transform: translateX(12px); /* & has minimal impact */
+    transform: translateX(50px); /* All words move same distance to maintain spacing */
 }
 
-/* Media word hover - medium-large movement (medium-long word) */
+/* Media word hover - large movement */
 .about-main-title:has(.word:nth-child(4):hover) .word:nth-child(1) {
-    transform: translateX(-180px); /* Media is medium-long, significant push */
+    transform: translateX(-250px); /* All words move same distance to maintain spacing */
 }
 .about-main-title:has(.word:nth-child(4):hover) .word:nth-child(2) {
-    transform: translateX(-180px);
+    transform: translateX(-250px); /* All words move same distance to maintain spacing */
 }
 .about-main-title:has(.word:nth-child(4):hover) .word:nth-child(3) {
-    transform: translateX(-170px); /* Media decent movement */
+    transform: translateX(-250px); /* All words move same distance to maintain spacing */
 }
 
 .about-main-title:has(.word:hover) .word:not(:hover) {
