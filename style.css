@@ -208,10 +208,7 @@ main {
     transform: translateX(90px); /* Slightly increased gap for Sports */
 }
 
-/* & symbol hover - decreased movement with Professional */
-.about-main-title:has(.word:nth-child(3):hover) .word:nth-child(1) {
-    transform: translateX(-5px); /* Minimal movement for Professional */
-}
+/* & symbol hover - no movement for Professional */
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(2) {
     transform: translateX(-60px); /* Keep same gap for & symbol */
 }
@@ -493,7 +490,7 @@ footer p {
         grid-template-columns: 1fr;
         gap: 40px;
     }
-    
+
     .contact-main-section {
         grid-template-columns: 1fr;
         gap: 40px;
