@@ -34,7 +34,7 @@ nav {
 }
 
 /* Mobile navigation adjustments */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     header {
         padding: 12px 16px;
     }
@@ -48,11 +48,19 @@ nav {
     .nav-links {
         gap: 16px;
         justify-content: center;
+        flex-wrap: wrap;
     }
 
     .nav-link {
-        font-size: 12px;
-        padding: 4px 8px;
+        font-size: 14px;
+        padding: 8px 12px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    main {
+        margin-top: 100px; /* Adjust for taller mobile header */
     }
 }
 
@@ -191,9 +199,18 @@ main {
     justify-content: center;
     align-items: flex-start;
     gap: clamp(20px, 4vw, 60px);
-    padding: 40px 40px;
+    padding: 40px 20px;
     width: 100%;
     margin: 40px 0;
+}
+
+@media (max-width: 768px) {
+    .about-images-section {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        padding: 20px;
+    }
 }
 
 .about-image-primary,
@@ -250,6 +267,21 @@ main {
     max-width: 800px;
     margin: 0 auto;
     padding: 0 40px;
+}
+
+@media (max-width: 768px) {
+    .about-text-section {
+        padding: 0 20px;
+    }
+
+    .about-title-section {
+        padding: 40px 20px 30px 20px;
+        min-height: 25vh;
+    }
+
+    .container {
+        padding: 0 20px;
+    }
 }
 
 .about-paragraph {
@@ -424,89 +456,15 @@ footer p {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    header {
-        padding: 16px 24px;
-    }
-
-    .container {
-        padding: 0 24px;
-    }
-
-    .nav-links {
-        gap: 20px;
-    }
-
-    .nav-link {
-        font-size: 13px;
-    }
-}
-
-    .about-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        padding: 20px 0;
     }
 
     .contact-main-section {
         grid-template-columns: 1fr;
-        gap: 40px;
-    }
-
-    .about-text h2 {
-        font-size: 32px;
-    }
-
-    .about-images {
         gap: 30px;
-    }
-
-    .about-image-primary .placeholder-image {
-        width: 350px;
-        height: 350px;
-        font-size: 16px;
-    }
-
-    .about-image-secondary .placeholder-image {
-        width: 350px;
-        height: 350px;
-        font-size: 14px;
-    }
-
-    .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 480px) {
-    .logo h1 {
-        font-size: 18px;
-    }
-
-    .nav-links {
-        gap: 20px;
-    }
-
-    .nav-link {
-        font-size: 12px;
-        padding: 8px 12px;
-        min-height: 44px; /* Better touch targets */
-        display: flex;
-        align-items: center;
-    }
-
-    .about-text h2 {
-        font-size: 28px;
-    }
-
-    .about-text p {
-        font-size: 16px;
-        line-height: 1.6;
-    }
-
-    .about-image-primary .placeholder-image,
-    .about-image-secondary .placeholder-image {
-        width: 280px;
-        height: 280px;
-        font-size: 12px;
     }
 
     .contact-photos {
@@ -516,22 +474,83 @@ footer p {
 
     .contact-photo {
         width: 100%;
-        max-width: 350px;
-        height: 250px;
+        max-width: 300px;
+        height: 200px;
+    }
+
+    .section {
+        padding: 40px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo h1 {
+        font-size: 18px;
+    }
+
+    .nav-links {
+        gap: 12px;
+    }
+
+    .nav-link {
+        font-size: 13px;
+        padding: 6px 10px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    .about-paragraph p {
+        font-size: 16px;
+        line-height: 1.7;
+    }
+
+    .about-image-primary,
+    .about-image-secondary {
+        max-width: 280px;
     }
 
     .gallery-grid {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 12px;
     }
 
     .gallery-item {
         margin-bottom: 8px;
     }
 
+    .contact-photo {
+        width: 100%;
+        max-width: 250px;
+        height: 180px;
+    }
+
+    .contact-details {
+        gap: 12px;
+    }
+
+    .contact-item {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
     /* Prevent zooming on input focus */
     input, select, textarea {
         font-size: 16px;
+    }
+
+    /* Better touch targets for lightbox */
+    .lightbox-nav {
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
+    }
+
+    .lightbox-close {
+        width: 50px;
+        height: 50px;
+        top: 20px;
+        right: 20px;
     }
 }
 
@@ -557,25 +576,60 @@ footer p {
     }
 
     .lightbox-prev {
-        left: 20px;
+        left: 15px;
     }
 
     .lightbox-next {
-        right: 20px;
+        right: 15px;
     }
 
     .lightbox-close {
-        top: 20px;
-        right: 20px;
+        top: 15px;
+        right: 15px;
         width: 60px;
         height: 60px;
         font-size: 28px;
     }
 
     .lightbox-counter {
-        bottom: 20px;
-        font-size: 16px;
-        padding: 10px 20px;
+        bottom: 15px;
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .lightbox-content {
+        max-width: 95%;
+        max-height: 85%;
+    }
+
+    .lightbox-image,
+    .lightbox-placeholder {
+        max-width: 90vw;
+        max-height: 80vh;
+    }
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+    .gallery-item:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    .about-image:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    .contact-photo:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    /* Make touch targets larger */
+    .gallery-item {
+        padding: 4px;
+        cursor: pointer;
     }
 }
 
