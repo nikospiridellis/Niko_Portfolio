@@ -210,7 +210,7 @@ main {
 
 /* & symbol hover - decreased movement with Professional */
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(1) {
-    transform: translateX(-45px); /* Decreased gap between & and Professional */
+    transform: translateX(-15px); /* Much smaller movement for Professional */
 }
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(2) {
     transform: translateX(-60px); /* Keep same gap for & symbol */
