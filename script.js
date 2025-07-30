@@ -336,17 +336,17 @@ window.addEventListener('scroll', function() {
         if (imageInViewport) {
             image.classList.add('visible');
             
-            // Only start animation when less than 50% visible (halfway off screen)
-            if (visibilityPercentage >= 0.5) {
-                // More than 50% visible - stay completely centered and fully opaque
+            // Start fading when 80% visible, completely black when bottom reaches top of screen
+            if (visibilityPercentage >= 0.8) {
+                // More than 80% visible - stay completely opaque
                 image.style.opacity = 1;
                 image.style.transform = 'translateX(0)';
             } else {
-                // Less than 50% visible - start fading out
-                const animationProgress = 1 - (visibilityPercentage / 0.5); // Normalize to 0-1
+                // Less than 80% visible - start aggressive fade to black
+                const animationProgress = 1 - (visibilityPercentage / 0.8); // Normalize to 0-1
                 
-                // Fade out to nearly invisible
-                image.style.opacity = 1 - (animationProgress * 0.95);
+                // Fade out completely to black (opacity 0)
+                image.style.opacity = 1 - animationProgress;
                 
                 // Keep images centered, no horizontal movement
                 image.style.transform = 'translateX(0)';
@@ -358,8 +358,8 @@ window.addEventListener('scroll', function() {
                 image.style.opacity = 1;
                 image.style.transform = 'translateX(0)';
             } else if (rect.bottom < 0) {
-                // Image is above viewport - fade to nearly invisible
-                image.style.opacity = 0.05;
+                // Image is above viewport - completely black
+                image.style.opacity = 0;
                 image.style.transform = 'translateX(0)';
             }
         }
