@@ -208,12 +208,12 @@ main {
     transform: translateX(90px); /* Slightly increased gap for Sports */
 }
 
-/* & symbol hover - no movement for Professional */
+/* & symbol hover - only affects Sports and Media */
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(2) {
-    transform: translateX(-60px); /* Keep same gap for & symbol */
+    transform: translateX(-60px); /* Move Sports left */
 }
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(4) {
-    transform: translateX(60px); /* Keep same gap for & symbol */
+    transform: translateX(60px); /* Move Media right */
 }
 
 /* Media word hover - decreased movement with Professional, slightly increased with Photographer */
