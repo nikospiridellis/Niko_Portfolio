@@ -311,7 +311,7 @@ window.addEventListener('scroll', function() {
         }
     });
     
-    // About images scroll animation - start centered, slide off when halfway off screen
+    // About images scroll animation - keep centered until halfway off screen, then fade out
     const aboutImages = document.querySelectorAll('.about-image');
     
     aboutImages.forEach(image => {
@@ -333,35 +333,23 @@ window.addEventListener('scroll', function() {
         // Calculate visibility percentage
         const visibilityPercentage = Math.min(1, Math.max(0, visibleHeight / elementHeight));
         
-        // Determine scroll direction
-        const isScrollingUp = rect.top > windowHeight * 0.3;
-        
         if (imageInViewport) {
             image.classList.add('visible');
             
-            // Start sliding off when less than 70% visible (start fade sooner)
-            if (visibilityPercentage >= 0.7) {
-                // More than 70% visible - stay centered and opaque
+            // Only start animation when less than 50% visible (halfway off screen)
+            if (visibilityPercentage >= 0.5) {
+                // More than 50% visible - stay completely centered and fully opaque
                 image.style.opacity = 1;
                 image.style.transform = 'translateX(0)';
             } else {
-                // Less than 70% visible - start sliding off and fading
-                const animationProgress = 1 - (visibilityPercentage / 0.7); // Normalize to 0-1
+                // Less than 50% visible - start fading out
+                const animationProgress = 1 - (visibilityPercentage / 0.5); // Normalize to 0-1
                 
-                if (isScrollingUp) {
-                    // Scrolling up - fade from black
-                    image.style.opacity = visibilityPercentage / 0.7; // Fade in from black
-                } else {
-                    // Scrolling down - fade to almost 0% opacity
-                    image.style.opacity = 1 - (animationProgress * 0.98); // Nearly complete fade
-                }
+                // Fade out to nearly invisible
+                image.style.opacity = 1 - (animationProgress * 0.95);
                 
-                // Slide in opposite directions
-                if (image.closest('.about-image-primary')) {
-                    image.style.transform = `translateX(${-100 * animationProgress}px)`;
-                } else {
-                    image.style.transform = `translateX(${100 * animationProgress}px)`;
-                }
+                // Keep images centered, no horizontal movement
+                image.style.transform = 'translateX(0)';
             }
         } else {
             // Image is out of viewport
@@ -370,13 +358,9 @@ window.addEventListener('scroll', function() {
                 image.style.opacity = 1;
                 image.style.transform = 'translateX(0)';
             } else if (rect.bottom < 0) {
-                // Image is above viewport - fade to black when scrolling up
-                image.style.opacity = 0;
-                if (image.closest('.about-image-primary')) {
-                    image.style.transform = 'translateX(-100px)';
-                } else {
-                    image.style.transform = 'translateX(100px)';
-                }
+                // Image is above viewport - fade to nearly invisible
+                image.style.opacity = 0.05;
+                image.style.transform = 'translateX(0)';
             }
         }
     });
