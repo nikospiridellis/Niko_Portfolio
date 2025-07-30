@@ -208,7 +208,10 @@ main {
     transform: translateX(90px); /* Slightly increased gap for Sports */
 }
 
-/* & symbol hover - only affects Sports and Media */
+/* & symbol hover - only affects Sports and Media, Professional stays still */
+.about-main-title:has(.word:nth-child(3):hover) .word:nth-child(1) {
+    transform: translateX(0px) !important; /* Force Professional to stay in place */
+}
 .about-main-title:has(.word:nth-child(3):hover) .word:nth-child(2) {
     transform: translateX(-60px); /* Move Sports left */
 }
