@@ -5,9 +5,10 @@ Usage:
     python3 tools/build_images.py [SOURCE_DIR]
 
 SOURCE_DIR defaults to "RAW PHOTOS". Every image in it or its subfolders
-(jpg, jpeg, png, tif, heic, avif) becomes two files in images/web/:
+(jpg, jpeg, png, tif, heic, avif) becomes four files in images/web/:
     <name>-800.avif   used in grids and on phones
     <name>-1600.avif  used in the full-screen viewer and on large screens
+    <name>-800.webp, <name>-1600.webp   the same, for browsers without AVIF
 
 Folder names tag the photos, so sort them like this:
     RAW PHOTOS/2025/Madrid/roll-12-04.jpg   -> year 2025, place Madrid
@@ -35,7 +36,8 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "images" / "web"
 DATA = ROOT / "photos.json"
 SIZES = (800, 1600)
-QUALITY = 55
+# Encoder quality per format; WebP needs a higher number for similar results.
+FORMATS = {"avif": 55, "webp": 78}
 EXTS = {".jpg", ".jpeg", ".png", ".tif", ".tiff", ".heic", ".avif"}
 
 
@@ -77,15 +79,16 @@ def web_names(sources):
 def build(src, name, force):
     w, h = dimensions(src)
     for size in SIZES:
-        dest = OUT_DIR / f"{name}-{size}.avif"
-        if dest.exists() and not force:
-            continue
-        subprocess.run(
-            ["magick", f"{src}[0]", "-auto-orient", "-strip",
-             "-resize", f"{size}x{size}>",
-             "-quality", str(QUALITY), str(dest)],
-            check=True,
-        )
+        for fmt, quality in FORMATS.items():
+            dest = OUT_DIR / f"{name}-{size}.{fmt}"
+            if dest.exists() and not force:
+                continue
+            subprocess.run(
+                ["magick", f"{src}[0]", "-auto-orient", "-strip",
+                 "-resize", f"{size}x{size}>",
+                 "-quality", str(quality), str(dest)],
+                check=True,
+            )
     # Size of the largest output, which is what the layout uses for aspect ratio.
     scale = min(1, max(SIZES) / max(w, h))
     return name, round(w * scale), round(h * scale)
@@ -141,7 +144,8 @@ def main():
     data["photos"] = [p for p in data["photos"] if p["file"] in keep]
     for name in removed:
         for size in SIZES:
-            (OUT_DIR / f"{name}-{size}.avif").unlink(missing_ok=True)
+            for fmt in FORMATS:
+                (OUT_DIR / f"{name}-{size}.{fmt}").unlink(missing_ok=True)
 
     # Keep the feed newest-year first; within a year the existing order is kept.
     data["photos"].sort(key=lambda p: -(p["year"] or 0))

@@ -13,7 +13,11 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
 
 body {
     background: var(--bg);
@@ -38,7 +42,8 @@ img { display: block; max-width: 100%; height: auto; }
     justify-content: space-between;
     align-items: baseline;
     padding: 20px var(--gutter);
-    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    background: rgba(14, 14, 14, 0.9);
+    -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
 }
 
@@ -116,28 +121,39 @@ main { min-height: 80vh; }
 /* Highlights: star photos crossfading in the first screen */
 
 .hero {
+    height: calc(100vh - 68px);
     height: calc(100svh - 68px);
     min-height: 420px;
     display: flex;
     flex-direction: column;
-    padding: 0 var(--gutter) 20px;
+    padding: 0 var(--gutter) 12px;
 }
 
 .hero-stage { position: relative; flex: 1; min-height: 0; }
 
 .hero-slide {
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transition: opacity 1.2s ease;
+    /* Hidden slides stop being drawn once faded out, so only two are ever composited. */
+    visibility: hidden;
+    transition: opacity 1.2s ease, visibility 0s linear 1.2s;
     cursor: zoom-in;
     pointer-events: none;
 }
 
-.hero-slide.active { opacity: 1; pointer-events: auto; }
+.hero-slide.active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 1.2s ease, visibility 0s;
+    pointer-events: auto;
+}
 
 .hero-slide img {
     max-width: 100%;
@@ -150,40 +166,78 @@ main { min-height: 80vh; }
 .hero-bar {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
+    grid-template-areas:
+        "ticks ticks ticks"
+        "left  meta  right";
     align-items: center;
-    gap: 16px;
-    padding-top: 18px;
+    column-gap: 16px;
+    padding-top: 10px;
     font-size: 12px;
     color: var(--muted);
 }
 
+.hero-left { grid-area: left; display: flex; align-items: center; gap: 16px; }
+.hero-meta { grid-area: meta; text-align: center; font-variant-numeric: tabular-nums; }
+.hero-right { grid-area: right; justify-self: end; display: flex; }
+
 .hero-label { letter-spacing: 0.08em; text-transform: uppercase; }
 
-.hero-meta { font-variant-numeric: tabular-nums; }
+.hero-btn {
+    background: none;
+    border: 0;
+    color: var(--muted);
+    font: inherit;
+    cursor: pointer;
+    min-height: 44px;
+    padding: 0 10px;
+    transition: color 0.2s;
+}
 
-.hero-ticks { justify-self: end; display: flex; gap: 6px; }
+.hero-btn:hover { color: var(--text); }
+
+.hero-toggle { letter-spacing: 0.08em; text-transform: uppercase; padding-left: 0; }
+
+.hero-arrow { font-size: 18px; min-width: 44px; }
+.hero-right .hero-arrow:last-child { padding-right: 0; }
+
+.hero-btn:focus-visible,
+.hero-tick:focus-visible,
+.hero-slide:focus-visible { outline: 1px solid var(--text); outline-offset: 2px; }
+
+/* One segment per photo; the current one fills up until the next photo. */
+.hero-ticks { grid-area: ticks; display: flex; gap: 6px; }
 
 .hero-tick {
-    width: 24px;
-    height: 16px;
+    flex: 1;
+    height: 24px;
+    padding: 0;
     background: none;
     border: 0;
     cursor: pointer;
     position: relative;
 }
 
+.hero-tick::before,
 .hero-tick::after {
     content: "";
     position: absolute;
     left: 0;
-    right: 0;
     top: 50%;
     height: 1px;
-    background: var(--faint);
-    transition: background 0.3s;
 }
 
-.hero-tick.active::after { background: var(--text); }
+.hero-tick::before { right: 0; background: var(--line); transition: background 0.2s; }
+.hero-tick:hover::before { background: var(--faint); }
+
+.hero-tick.active::after { right: 0; background: var(--text); }
+
+.hero.playing .hero-tick.active::after {
+    right: auto;
+    width: 100%;
+    animation: hero-fill 5s linear;
+}
+
+@keyframes hero-fill { from { width: 0; } to { width: 100%; } }
 
 .feed-head {
     display: flex;
@@ -235,7 +289,7 @@ main { min-height: 80vh; }
 
 .index-cover {
     width: 120px;
-    aspect-ratio: 4 / 3;
+    height: 90px;
     object-fit: cover;
     filter: grayscale(1);
     opacity: 0.5;
@@ -294,7 +348,10 @@ main { min-height: 80vh; }
 
 .lightbox {
     position: fixed;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: 100;
     background: rgba(8, 8, 8, 0.97);
     display: grid;
@@ -370,11 +427,40 @@ main { min-height: 80vh; }
     .site-footer { grid-template-columns: 1fr; }
 
     .hero { height: auto; min-height: 0; padding-top: 8px; }
-    .hero-stage { aspect-ratio: 4 / 5; flex: none; }
-    .hero-bar { grid-template-columns: 1fr auto; }
+    .hero-stage { flex: none; height: min(125vw, 68vh); }
+    .hero-bar {
+        grid-template-columns: auto 1fr auto;
+        grid-template-areas:
+            "ticks ticks ticks"
+            "left  meta  right";
+        column-gap: 8px;
+    }
+    .hero-meta { text-align: left; }
     .hero-label { display: none; }
+    .hero-tick { height: 32px; }
 
     .lightbox { grid-template-columns: 1fr; }
     .lb-figure { grid-column: 1; padding: 56px 0 40px; }
     .lb-prev, .lb-next { display: none; }
+}
+
+/* Phones turned sideways: let the highlights fill the short screen. */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero { height: auto; min-height: 0; }
+    .hero-stage { flex: none; height: calc(100vh - 160px); height: calc(100svh - 160px); }
+    .site-header { position: static; }
+}
+
+/* Very narrow phones (iPhone SE / mini) */
+@media (max-width: 360px) {
+    .site-header nav { gap: 10px; }
+    .site-header nav a { font-size: 11px; letter-spacing: 0.04em; }
+    .wordmark { font-size: 18px; }
+    .contact-list li { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .hero-slide, .photo img { transition: none; }
+    .hero.playing .hero-tick.active::after { animation: none; }
 }

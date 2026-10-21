@@ -6,6 +6,9 @@
 //   #/archive/2025/madrid   photos from that place and year
 
 const IMG_DIR = 'images/web/';
+// Browsers without AVIF (Safari before iOS 16 / macOS 13) get the WebP copies.
+let EXT = 'avif';
+const AVIF_PROBE = 'data:image/avif;base64,AAAAHGZ0eXBhdmlmAAAAAG1pZjFhdmlmbWlhZgAAANRtZXRhAAAAAAAAACFoZGxyAAAAAAAAAABwaWN0AAAAAAAAAAAAAAAAAAAAAA5waXRtAAAAAAABAAAAImlsb2MAAAAAREAAAQABAAAAAAD4AAEAAAAAAAAAEgAAACNpaW5mAAAAAAABAAAAFWluZmUCAAAAAAEAAGF2MDEAAAAAVGlwcnAAAAA2aXBjbwAAAAxhdjFDgUB8AAAAABRpc3BlAAAAAAAAAAEAAAABAAAADnBpeGkAAAAAAQwAAAAWaXBtYQAAAAAAAAABAAEDgQIDAAAAGm1kYXQSAAoFWAAGOoAyBxgAOOEAAWA=';
 const UNDATED = 'Undated';
 const UNPLACED = 'Elsewhere';
 
@@ -23,6 +26,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c =>
 const yearOf = p => p.year ? String(p.year) : UNDATED;
 const placeOf = p => p.place || UNPLACED;
 const isPortrait = p => p.h > p.w;
+const url = (p, size) => `${IMG_DIR}${p.file}-${size}.${EXT}`;
 
 function groupBy(list, keyFn) {
     const groups = new Map();
@@ -39,9 +43,8 @@ function metaLine(p) {
 }
 
 function imgTag(p, sizes, eager = false) {
-    const base = IMG_DIR + p.file;
-    return `<img src="${base}-800.avif"
-        srcset="${base}-800.avif 800w, ${base}-1600.avif 1600w"
+    return `<img src="${url(p, 800)}"
+        srcset="${url(p, 800)} 800w, ${url(p, 1600)} 1600w"
         sizes="${sizes}" width="${p.w}" height="${p.h}"
         alt="${esc(p.caption || metaLine(p) || 'Photograph')}"
         loading="${eager ? 'eager' : 'lazy'}" decoding="async">`;
@@ -105,63 +108,127 @@ const featured = () => photos.filter(p => 'featured' in p).sort((a, b) => a.feat
 
 function heroMarkup(list) {
     if (!list.length) return '';
+    const total = String(list.length).padStart(2, '0');
     const slides = list.map((p, n) => `
-        <figure class="hero-slide${n === 0 ? ' active' : ''}" data-hero="${n}">
-            <img src="${IMG_DIR}${p.file}-1600.avif" alt="${esc(p.caption || metaLine(p) || 'Photograph')}"
+        <figure class="hero-slide${n === 0 ? ' active' : ''}" data-hero="${n}"
+            role="group" aria-roledescription="slide" aria-label="${n + 1} of ${list.length}"${n ? ' aria-hidden="true"' : ''}>
+            <img src="${url(p, 1600)}" srcset="${url(p, 800)} 800w, ${url(p, 1600)} 1600w"
+                sizes="(max-width: 720px) 100vw, 75vw" alt="${esc(p.caption || metaLine(p) || 'Photograph')}"
                 width="${p.w}" height="${p.h}" decoding="async" ${n === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}>
         </figure>`).join('');
     const ticks = list.map((_, n) =>
-        `<button class="hero-tick${n === 0 ? ' active' : ''}" data-go="${n}" aria-label="Show highlight ${n + 1}"></button>`).join('');
-    return `<section class="hero" aria-label="Selected photographs">
+        `<button class="hero-tick${n === 0 ? ' active' : ''}" data-go="${n}" aria-label="Show photo ${n + 1}"></button>`).join('');
+    return `<section class="hero playing" aria-roledescription="carousel" aria-label="Selected photographs">
         <div class="hero-stage">${slides}</div>
         <div class="hero-bar">
-            <span class="hero-label">Selected</span>
-            <span class="hero-meta"><span class="hero-num">01</span> / ${String(list.length).padStart(2, '0')}
+            <span class="hero-left">
+                <span class="hero-label">Selected</span>
+                <button class="hero-btn hero-toggle" aria-label="Pause slideshow">Pause</button>
+            </span>
+            <span class="hero-meta" aria-live="off"><span class="hero-num">01</span> / ${total}
                 · <span class="hero-place">${esc(metaLine(list[0]))}</span></span>
+            <span class="hero-right">
+                <button class="hero-btn hero-arrow" data-step="-1" aria-label="Previous photo">←</button>
+                <button class="hero-btn hero-arrow" data-step="1" aria-label="Next photo">→</button>
+            </span>
             <span class="hero-ticks">${ticks}</span>
         </div>
     </section>`;
 }
 
+const HERO_DELAY = 5000;
 let heroTimer = null;
+let heroStep = null;   // moves the highlights from the keyboard while they are on screen
+let heroSync = null;   // re-evaluates autoplay, e.g. when the tab is hidden
 
 function startHero(list) {
     clearInterval(heroTimer);
+    heroStep = heroSync = null;
     const hero = view.querySelector('.hero');
     if (!hero) return;
     const slides = hero.querySelectorAll('.hero-slide');
     const ticks = hero.querySelectorAll('.hero-tick');
+    const toggle = hero.querySelector('.hero-toggle');
+    const meta = hero.querySelector('.hero-meta');
     let at = 0;
+    let paused = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let hovering = false;
 
     const go = n => {
         at = (n + list.length) % list.length;
-        slides.forEach((s, i) => s.classList.toggle('active', i === at));
+        slides.forEach((s, i) => {
+            s.classList.toggle('active', i === at);
+            s.setAttribute('aria-hidden', i === at ? 'false' : 'true');
+        });
         ticks.forEach((t, i) => t.classList.toggle('active', i === at));
         hero.querySelector('.hero-num').textContent = String(at + 1).padStart(2, '0');
         hero.querySelector('.hero-place').textContent = metaLine(list[at]);
-        // Start loading the one after next so the crossfade never shows a blank.
+        // Load the next one ahead of time so the crossfade never shows a blank.
         slides[(at + 1) % list.length].querySelector('img').loading = 'eager';
     };
-    const play = () => {
+    const sync = () => {
         clearInterval(heroTimer);
-        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            heroTimer = setInterval(() => go(at + 1), 5000);
-        }
+        const running = !paused && !hovering && !document.hidden;
+        if (running) heroTimer = setInterval(() => go(at + 1), HERO_DELAY);
+        hero.classList.toggle('playing', running);
+        toggle.textContent = paused ? 'Play' : 'Pause';
+        toggle.setAttribute('aria-label', paused ? 'Play slideshow' : 'Pause slideshow');
+        // Announce photo changes to screen readers only when the visitor is driving.
+        meta.setAttribute('aria-live', paused ? 'polite' : 'off');
     };
+    // Any manual move restarts the countdown so the next photo doesn't arrive early.
+    const step = d => { go(at + d); sync(); };
+    heroStep = step;
 
     hero.addEventListener('click', e => {
         const tick = e.target.closest('[data-go]');
-        if (tick) { go(Number(tick.dataset.go)); play(); return; }
-        if (e.target.closest('.hero-slide')) openLightbox(list, at);
+        const arrow = e.target.closest('[data-step]');
+        if (tick) { go(Number(tick.dataset.go)); sync(); }
+        else if (arrow) step(Number(arrow.dataset.step));
+        else if (e.target.closest('.hero-toggle')) { paused = !paused; sync(); }
+        else if (e.target.closest('.hero-slide')) openLightbox(list, at);
     });
-    hero.addEventListener('mouseenter', () => clearInterval(heroTimer));
-    hero.addEventListener('mouseleave', play);
-    play();
+
+    // Pause while a mouse is over the photos. Touch is ignored: a tap would never "leave".
+    hero.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') { hovering = true; sync(); } });
+    hero.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') { hovering = false; sync(); } });
+
+    let touchX = null;
+    const stage = hero.querySelector('.hero-stage');
+    stage.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+    stage.addEventListener('touchend', e => {
+        if (touchX === null) return;
+        const dx = e.changedTouches[0].clientX - touchX;
+        touchX = null;
+        if (Math.abs(dx) > 40) {
+            e.preventDefault();   // a swipe shouldn't also open the viewer
+            step(dx < 0 ? 1 : -1);
+        }
+    });
+
+    heroSync = sync;
+    sync();
+}
+
+// Newest year first. Within a year, each place's photos are spread evenly
+// through the year's run so one location never arrives as a block.
+function feedOrder(list) {
+    const ordered = [];
+    for (const year of sortYears(groupBy(list, yearOf).keys())) {
+        const inYear = list.filter(p => yearOf(p) === year);
+        const slots = [];
+        for (const [place, group] of groupBy(inYear, placeOf)) {
+            group.forEach((p, i) => slots.push({ p, pos: (i + 0.5) / group.length, place }));
+        }
+        slots.sort((a, b) => a.pos - b.pos || a.place.localeCompare(b.place));
+        ordered.push(...slots.map(s => s.p));
+    }
+    return ordered;
 }
 
 function renderFeed() {
     const stars = featured();
-    const placed = feedLayout(photos);
+    const placed = feedLayout(feedOrder(photos));
     const html = placed.map(({ p, col, row, align }, n) => {
         const portrait = isPortrait(p);
         const span = parseInt(col.split('span ')[1], 10) || 12;
@@ -192,7 +259,7 @@ function indexRow(href, name, countText, cover) {
     return `<li><a href="${href}">
         <span class="index-name">${esc(name)}</span>
         <span class="index-count">${countText}</span>
-        <img class="index-cover" src="${IMG_DIR}${cover.file}-800.avif" alt="" loading="lazy" decoding="async">
+        <img class="index-cover" src="${url(cover, 800)}" alt="" loading="lazy" decoding="async">
     </a></li>`;
 }
 
@@ -293,6 +360,7 @@ function route() {
     const parts = hash.slice(2).split('/').filter(Boolean);
     closeLightbox();
     clearInterval(heroTimer);
+    heroStep = heroSync = null;
 
     if (parts[0] === 'archive') {
         if (parts.length === 1) current = renderYears();
@@ -322,14 +390,14 @@ let lbList = [];
 function showPhoto(index) {
     lbIndex = (index + lbList.length) % lbList.length;
     const p = lbList[lbIndex];
-    lbImg.src = `${IMG_DIR}${p.file}-1600.avif`;
+    lbImg.src = url(p, 1600);
     lbImg.alt = p.caption || metaLine(p) || 'Photograph';
     lbCaption.textContent = [p.caption, metaLine(p)].filter(Boolean).join(' — ');
     lbCount.textContent = `${lbIndex + 1} / ${lbList.length}`;
     // Warm the cache for the neighbours.
     [lbIndex + 1, lbIndex - 1].forEach(i => {
         const n = lbList[(i + lbList.length) % lbList.length];
-        new Image().src = `${IMG_DIR}${n.file}-1600.avif`;
+        new Image().src = url(n, 1600);
     });
 }
 
@@ -358,8 +426,18 @@ lb.querySelector('.lb-prev').addEventListener('click', () => showPhoto(lbIndex -
 lb.querySelector('.lb-next').addEventListener('click', () => showPhoto(lbIndex + 1));
 lb.addEventListener('click', e => { if (e.target === lb || e.target.classList.contains('lb-figure')) closeLightbox(); });
 
+document.addEventListener('visibilitychange', () => heroSync && heroSync());
+
 document.addEventListener('keydown', e => {
-    if (lb.hidden) return;
+    if (lb.hidden) {
+        // Arrow keys move the highlights while they are on screen.
+        const hero = view.querySelector('.hero');
+        if (heroStep && hero && hero.getBoundingClientRect().bottom > 80 &&
+            (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
+            heroStep(e.key === 'ArrowRight' ? 1 : -1);
+        }
+        return;
+    }
     if (e.key === 'Escape') closeLightbox();
     if (e.key === 'ArrowRight') showPhoto(lbIndex + 1);
     if (e.key === 'ArrowLeft') showPhoto(lbIndex - 1);
@@ -381,12 +459,20 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
 fetch('photos.json')
     .then(r => r.json())
-    .then(data => {
+    .then(async data => {
         photos = data.photos;
+        // onload/onerror rather than decode(): decode() can stall in background tabs.
+        EXT = await new Promise(resolve => {
+            const probe = new Image();
+            probe.onload = () => resolve(probe.width > 0 ? 'avif' : 'webp');
+            probe.onerror = () => resolve('webp');
+            setTimeout(() => resolve('avif'), 1000);
+            probe.src = AVIF_PROBE;
+        });
         const me = photos.find(p => p.portrait);
         if (me) {
             const img = document.getElementById('portrait');
-            img.src = `${IMG_DIR}${me.file}-800.avif`;
+            img.src = url(me, 800);
             img.hidden = false;
         }
         window.addEventListener('hashchange', route);
