@@ -118,7 +118,7 @@ function heroMarkup(list) {
         </figure>`).join('');
     const ticks = list.map((_, n) =>
         `<button class="hero-tick${n === 0 ? ' active' : ''}" data-go="${n}" aria-label="Show photo ${n + 1}"></button>`).join('');
-    return `<section class="hero playing" aria-roledescription="carousel" aria-label="Selected photographs">
+    return `<section class="hero" aria-roledescription="carousel" aria-label="Selected photographs">
         <div class="hero-stage">${slides}</div>
         <div class="hero-bar">
             <span class="hero-left">
@@ -136,13 +136,14 @@ function heroMarkup(list) {
     </section>`;
 }
 
-const HERO_DELAY = 5000;
-let heroTimer = null;
+// Autoplay is driven by the progress bars: when the current bar's CSS fill
+// animation (3s, see --hero-delay in style.css) ends, the next photo shows.
+// Pausing pauses the animation, so the bar resumes where it stopped.
 let heroStep = null;   // moves the highlights from the keyboard while they are on screen
 let heroSync = null;   // re-evaluates autoplay, e.g. when the tab is hidden
+let heroHeld = false;  // true while the full-screen viewer is open
 
 function startHero(list) {
-    clearInterval(heroTimer);
     heroStep = heroSync = null;
     const hero = view.querySelector('.hero');
     if (!hero) return;
@@ -151,8 +152,7 @@ function startHero(list) {
     const toggle = hero.querySelector('.hero-toggle');
     const meta = hero.querySelector('.hero-meta');
     let at = 0;
-    let paused = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let hovering = false;
+    let paused = false;
 
     const go = n => {
         at = (n + list.length) % list.length;
@@ -160,38 +160,40 @@ function startHero(list) {
             s.classList.toggle('active', i === at);
             s.setAttribute('aria-hidden', i === at ? 'false' : 'true');
         });
-        ticks.forEach((t, i) => t.classList.toggle('active', i === at));
+        ticks.forEach((t, i) => {
+            t.classList.remove('active');
+            t.classList.toggle('done', i < at);
+        });
+        void ticks[at].offsetWidth;   // restart the fill even if this bar was already active
+        ticks[at].classList.add('active');
         hero.querySelector('.hero-num').textContent = String(at + 1).padStart(2, '0');
         hero.querySelector('.hero-place').textContent = metaLine(list[at]);
         // Load the next one ahead of time so the crossfade never shows a blank.
         slides[(at + 1) % list.length].querySelector('img').loading = 'eager';
     };
     const sync = () => {
-        clearInterval(heroTimer);
-        const running = !paused && !hovering && !document.hidden;
-        if (running) heroTimer = setInterval(() => go(at + 1), HERO_DELAY);
-        hero.classList.toggle('playing', running);
+        const running = !paused && !heroHeld && !document.hidden;
+        hero.classList.toggle('paused', !running);
         toggle.textContent = paused ? 'Play' : 'Pause';
         toggle.setAttribute('aria-label', paused ? 'Play slideshow' : 'Pause slideshow');
         // Announce photo changes to screen readers only when the visitor is driving.
         meta.setAttribute('aria-live', paused ? 'polite' : 'off');
     };
-    // Any manual move restarts the countdown so the next photo doesn't arrive early.
-    const step = d => { go(at + d); sync(); };
+    const step = d => go(at + d);
     heroStep = step;
+
+    hero.querySelector('.hero-ticks').addEventListener('animationend', e => {
+        if (e.target === ticks[at]) go(at + 1);
+    });
 
     hero.addEventListener('click', e => {
         const tick = e.target.closest('[data-go]');
         const arrow = e.target.closest('[data-step]');
-        if (tick) { go(Number(tick.dataset.go)); sync(); }
+        if (tick) go(Number(tick.dataset.go));
         else if (arrow) step(Number(arrow.dataset.step));
         else if (e.target.closest('.hero-toggle')) { paused = !paused; sync(); }
         else if (e.target.closest('.hero-slide')) openLightbox(list, at);
     });
-
-    // Pause while a mouse is over the photos. Touch is ignored: a tap would never "leave".
-    hero.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') { hovering = true; sync(); } });
-    hero.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') { hovering = false; sync(); } });
 
     let touchX = null;
     const stage = hero.querySelector('.hero-stage');
@@ -359,7 +361,6 @@ function route() {
 
     const parts = hash.slice(2).split('/').filter(Boolean);
     closeLightbox();
-    clearInterval(heroTimer);
     heroStep = heroSync = null;
 
     if (parts[0] === 'archive') {
@@ -403,7 +404,8 @@ function showPhoto(index) {
 
 function openLightbox(list, index) {
     lbList = list;
-    clearInterval(heroTimer);
+    heroHeld = true;
+    if (heroSync) heroSync();
     lb.hidden = false;
     document.body.style.overflow = 'hidden';
     showPhoto(index);
@@ -414,6 +416,8 @@ function closeLightbox() {
     lb.hidden = true;
     lbImg.removeAttribute('src');
     document.body.style.overflow = '';
+    heroHeld = false;
+    if (heroSync) heroSync();
 }
 
 view.addEventListener('click', e => {

@@ -9,6 +9,7 @@
     --sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
     --gutter: clamp(16px, 4vw, 56px);
     --max: 1440px;
+    --hero-delay: 3s;   /* time each highlight stays up */
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -204,7 +205,8 @@ main { min-height: 80vh; }
 .hero-tick:focus-visible,
 .hero-slide:focus-visible { outline: 1px solid var(--text); outline-offset: 2px; }
 
-/* One segment per photo; the current one fills up until the next photo. */
+/* One bar per photo, like story progress: past bars full, the current one
+   filling, future ones empty. The fill ending is what advances the slideshow. */
 .hero-ticks { grid-area: ticks; display: flex; gap: 6px; }
 
 .hero-tick {
@@ -229,13 +231,13 @@ main { min-height: 80vh; }
 .hero-tick::before { right: 0; background: var(--line); transition: background 0.2s; }
 .hero-tick:hover::before { background: var(--faint); }
 
-.hero-tick.active::after { right: 0; background: var(--text); }
+.hero-tick::after { width: 0; background: var(--text); }
 
-.hero.playing .hero-tick.active::after {
-    right: auto;
-    width: 100%;
-    animation: hero-fill 5s linear;
-}
+.hero-tick.done::after { width: 100%; }
+
+.hero-tick.active::after { animation: hero-fill var(--hero-delay) linear forwards; }
+
+.hero.paused .hero-tick.active::after { animation-play-state: paused; }
 
 @keyframes hero-fill { from { width: 0; } to { width: 100%; } }
 
@@ -462,5 +464,4 @@ main { min-height: 80vh; }
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .hero-slide, .photo img { transition: none; }
-    .hero.playing .hero-tick.active::after { animation: none; }
 }
