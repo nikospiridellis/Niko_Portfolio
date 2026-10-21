@@ -9,7 +9,7 @@
     --sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
     --gutter: clamp(16px, 4vw, 56px);
     --max: 1440px;
-    --hero-delay: 3s;   /* time each highlight stays up */
+    --hero-delay: 5s;   /* time each highlight stays up */
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }

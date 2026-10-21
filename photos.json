@@ -615,15 +615,6 @@
       "h": 1081
     },
     {
-      "file": "R1-04293-0014",
-      "year": 2025,
-      "place": "Cusco",
-      "caption": "",
-      "source": "2025/Cusco/R1-04293-0014.JPG",
-      "w": 1600,
-      "h": 1081
-    },
-    {
       "file": "60910006",
       "year": 2025,
       "place": "Iguazú",
@@ -804,15 +795,6 @@
       "h": 1078
     },
     {
-      "file": "5897-1",
-      "year": 2025,
-      "place": "Madrid",
-      "caption": "",
-      "source": "2025/Madrid/5897-1.jpg",
-      "w": 1600,
-      "h": 1088
-    },
-    {
       "file": "5897-3",
       "year": 2025,
       "place": "Madrid",
@@ -921,15 +903,6 @@
       "h": 1061
     },
     {
-      "file": "IMG_5115",
-      "year": 2025,
-      "place": "Marseille",
-      "caption": "",
-      "source": "2025/Marseille/IMG_5115.JPG",
-      "w": 1600,
-      "h": 1088
-    },
-    {
       "file": "IMG_5117",
       "year": 2025,
       "place": "Marseille",
@@ -973,15 +946,6 @@
       "source": "2025/New York/S275530-R1-E005.jpeg",
       "w": 1600,
       "h": 1388
-    },
-    {
-      "file": "S275530-R1-E019",
-      "year": 2025,
-      "place": "New York",
-      "caption": "",
-      "source": "2025/New York/S275530-R1-E019.jpeg",
-      "w": 1600,
-      "h": 1073
     },
     {
       "file": "S275874-R2-E059",
@@ -1097,15 +1061,6 @@
       "place": "Santander",
       "caption": "",
       "source": "2025/Santander/5896-7.jpg",
-      "w": 1600,
-      "h": 1088
-    },
-    {
-      "file": "5897-28",
-      "year": 2025,
-      "place": "Santander",
-      "caption": "",
-      "source": "2025/Santander/5897-28.jpg",
       "w": 1600,
       "h": 1088
     },
@@ -1238,6 +1193,56 @@
       "w": 1600,
       "h": 1102,
       "featured": 2
+    },
+    {
+      "file": "star6",
+      "year": 2025,
+      "place": "Cusco",
+      "caption": "",
+      "source": "2025/Cusco/star6.JPG",
+      "featured": 6,
+      "w": 1600,
+      "h": 1081
+    },
+    {
+      "file": "star10",
+      "year": 2025,
+      "place": "Madrid",
+      "caption": "",
+      "source": "2025/Madrid/star10.jpg",
+      "featured": 10,
+      "w": 1600,
+      "h": 1088
+    },
+    {
+      "file": "star8",
+      "year": 2025,
+      "place": "Marseille",
+      "caption": "",
+      "source": "2025/Marseille/star8.JPG",
+      "featured": 8,
+      "w": 1600,
+      "h": 1088
+    },
+    {
+      "file": "star7",
+      "year": 2025,
+      "place": "New York",
+      "caption": "",
+      "source": "2025/New York/star7.jpeg",
+      "featured": 7,
+      "w": 1600,
+      "h": 1073
+    },
+    {
+      "file": "star9",
+      "year": 2025,
+      "place": "Santander",
+      "caption": "",
+      "source": "2025/Santander/star9.jpg",
+      "featured": 9,
+      "w": 1600,
+      "h": 1088
     }
   ]
 }
