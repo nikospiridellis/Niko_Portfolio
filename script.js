@@ -99,7 +99,68 @@ function feedLayout(list) {
     return placed;
 }
 
+// ---------- highlights: the star photos, shown full screen on arrival ----------
+
+const featured = () => photos.filter(p => 'featured' in p).sort((a, b) => a.featured - b.featured);
+
+function heroMarkup(list) {
+    if (!list.length) return '';
+    const slides = list.map((p, n) => `
+        <figure class="hero-slide${n === 0 ? ' active' : ''}" data-hero="${n}">
+            <img src="${IMG_DIR}${p.file}-1600.avif" alt="${esc(p.caption || metaLine(p) || 'Photograph')}"
+                width="${p.w}" height="${p.h}" decoding="async" ${n === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}>
+        </figure>`).join('');
+    const ticks = list.map((_, n) =>
+        `<button class="hero-tick${n === 0 ? ' active' : ''}" data-go="${n}" aria-label="Show highlight ${n + 1}"></button>`).join('');
+    return `<section class="hero" aria-label="Selected photographs">
+        <div class="hero-stage">${slides}</div>
+        <div class="hero-bar">
+            <span class="hero-label">Selected</span>
+            <span class="hero-meta"><span class="hero-num">01</span> / ${String(list.length).padStart(2, '0')}
+                · <span class="hero-place">${esc(metaLine(list[0]))}</span></span>
+            <span class="hero-ticks">${ticks}</span>
+        </div>
+    </section>`;
+}
+
+let heroTimer = null;
+
+function startHero(list) {
+    clearInterval(heroTimer);
+    const hero = view.querySelector('.hero');
+    if (!hero) return;
+    const slides = hero.querySelectorAll('.hero-slide');
+    const ticks = hero.querySelectorAll('.hero-tick');
+    let at = 0;
+
+    const go = n => {
+        at = (n + list.length) % list.length;
+        slides.forEach((s, i) => s.classList.toggle('active', i === at));
+        ticks.forEach((t, i) => t.classList.toggle('active', i === at));
+        hero.querySelector('.hero-num').textContent = String(at + 1).padStart(2, '0');
+        hero.querySelector('.hero-place').textContent = metaLine(list[at]);
+        // Start loading the one after next so the crossfade never shows a blank.
+        slides[(at + 1) % list.length].querySelector('img').loading = 'eager';
+    };
+    const play = () => {
+        clearInterval(heroTimer);
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            heroTimer = setInterval(() => go(at + 1), 5000);
+        }
+    };
+
+    hero.addEventListener('click', e => {
+        const tick = e.target.closest('[data-go]');
+        if (tick) { go(Number(tick.dataset.go)); play(); return; }
+        if (e.target.closest('.hero-slide')) openLightbox(list, at);
+    });
+    hero.addEventListener('mouseenter', () => clearInterval(heroTimer));
+    hero.addEventListener('mouseleave', play);
+    play();
+}
+
 function renderFeed() {
+    const stars = featured();
     const placed = feedLayout(photos);
     const html = placed.map(({ p, col, row, align }, n) => {
         const portrait = isPortrait(p);
@@ -109,11 +170,19 @@ function renderFeed() {
             sizes,
             style: `grid-column:${col};grid-row:${row};align-self:${align}`,
             cls: (portrait ? 'portrait' : '') + (n % 2 ? ' right' : ''),
-            eager: n < 2,
+            eager: !stars.length && n < 2,
         });
     }).join('');
 
-    view.innerHTML = `<section class="page"><div class="feed">${html}</div></section>`;
+    view.innerHTML = `${heroMarkup(stars)}
+        <section class="page">
+            <header class="feed-head">
+                <span class="eyebrow">All photographs</span>
+                <span class="eyebrow">${photos.length}</span>
+            </header>
+            <div class="feed">${html}</div>
+        </section>`;
+    startHero(stars);
     return placed.map(x => x.p);
 }
 
@@ -223,6 +292,7 @@ function route() {
 
     const parts = hash.slice(2).split('/').filter(Boolean);
     closeLightbox();
+    clearInterval(heroTimer);
 
     if (parts[0] === 'archive') {
         if (parts.length === 1) current = renderYears();
@@ -247,22 +317,25 @@ const lbImg = lb.querySelector('.lb-img');
 const lbCaption = lb.querySelector('.lb-caption');
 const lbCount = lb.querySelector('.lb-count');
 let lbIndex = 0;
+let lbList = [];
 
 function showPhoto(index) {
-    lbIndex = (index + current.length) % current.length;
-    const p = current[lbIndex];
+    lbIndex = (index + lbList.length) % lbList.length;
+    const p = lbList[lbIndex];
     lbImg.src = `${IMG_DIR}${p.file}-1600.avif`;
     lbImg.alt = p.caption || metaLine(p) || 'Photograph';
     lbCaption.textContent = [p.caption, metaLine(p)].filter(Boolean).join(' — ');
-    lbCount.textContent = `${lbIndex + 1} / ${current.length}`;
+    lbCount.textContent = `${lbIndex + 1} / ${lbList.length}`;
     // Warm the cache for the neighbours.
     [lbIndex + 1, lbIndex - 1].forEach(i => {
-        const n = current[(i + current.length) % current.length];
+        const n = lbList[(i + lbList.length) % lbList.length];
         new Image().src = `${IMG_DIR}${n.file}-1600.avif`;
     });
 }
 
-function openLightbox(index) {
+function openLightbox(list, index) {
+    lbList = list;
+    clearInterval(heroTimer);
     lb.hidden = false;
     document.body.style.overflow = 'hidden';
     showPhoto(index);
@@ -277,7 +350,7 @@ function closeLightbox() {
 
 view.addEventListener('click', e => {
     const photo = e.target.closest('.photo');
-    if (photo && current.length) openLightbox(Number(photo.dataset.index));
+    if (photo && current.length) openLightbox(current, Number(photo.dataset.index));
 });
 
 lb.querySelector('.lb-close').addEventListener('click', closeLightbox);
@@ -310,6 +383,12 @@ fetch('photos.json')
     .then(r => r.json())
     .then(data => {
         photos = data.photos;
+        const me = photos.find(p => p.portrait);
+        if (me) {
+            const img = document.getElementById('portrait');
+            img.src = `${IMG_DIR}${me.file}-800.avif`;
+            img.hidden = false;
+        }
         window.addEventListener('hashchange', route);
         route();
     })

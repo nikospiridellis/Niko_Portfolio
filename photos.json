@@ -37,15 +37,6 @@
       "h": 1061
     },
     {
-      "file": "october19_roll-20",
-      "year": 2026,
-      "place": "El Escorial",
-      "caption": "",
-      "source": "2026/El Escorial/october19_roll-20.png",
-      "w": 1061,
-      "h": 1600
-    },
-    {
       "file": "3817-23",
       "year": 2026,
       "place": "Madrid",
@@ -172,15 +163,6 @@
       "h": 1061
     },
     {
-      "file": "000048160011",
-      "year": 2026,
-      "place": "New York",
-      "caption": "",
-      "source": "2026/New York/000048160011.jpg",
-      "w": 1600,
-      "h": 1594
-    },
-    {
       "file": "IMG_1070",
       "year": 2026,
       "place": "New York",
@@ -287,6 +269,62 @@
       "source": "2026/San Juan/000009190031.jpg",
       "w": 1061,
       "h": 1600
+    },
+    {
+      "file": "star1",
+      "year": 2026,
+      "place": "El Escorial",
+      "caption": "",
+      "source": "2026/El Escorial/star1.png",
+      "w": 1061,
+      "h": 1600,
+      "featured": 1
+    },
+    {
+      "file": "star5",
+      "year": 2026,
+      "place": "New York",
+      "caption": "",
+      "source": "2026/New York/star5.jpg",
+      "w": 1600,
+      "h": 1594,
+      "featured": 5
+    },
+    {
+      "file": "IMG_1900",
+      "year": 2026,
+      "place": "Sebastopol",
+      "caption": "",
+      "source": "2026/Sebastopol/IMG_1900.TIF",
+      "w": 1600,
+      "h": 1061
+    },
+    {
+      "file": "IMG_1914",
+      "year": 2026,
+      "place": "Sebastopol",
+      "caption": "",
+      "source": "2026/Sebastopol/IMG_1914.jpeg",
+      "w": 1060,
+      "h": 1600
+    },
+    {
+      "file": "IMG_1916",
+      "year": 2026,
+      "place": "Sebastopol",
+      "caption": "",
+      "source": "2026/Sebastopol/IMG_1916.jpeg",
+      "w": 1060,
+      "h": 1600
+    },
+    {
+      "file": "IMG_1932",
+      "year": 2026,
+      "place": "Sebastopol",
+      "caption": "",
+      "source": "2026/Sebastopol/IMG_1932.TIF",
+      "w": 1600,
+      "h": 1061
     },
     {
       "file": "4325-29",
@@ -586,15 +624,6 @@
       "h": 1081
     },
     {
-      "file": "R1-04293-0017",
-      "year": 2025,
-      "place": "Cusco",
-      "caption": "",
-      "source": "2025/Cusco/R1-04293-0017.JPG",
-      "w": 1600,
-      "h": 1081
-    },
-    {
       "file": "60910006",
       "year": 2025,
       "place": "Iguazú",
@@ -620,15 +649,6 @@
       "source": "2025/Iguazú/60910011.JPG",
       "w": 1600,
       "h": 1060
-    },
-    {
-      "file": "60910012",
-      "year": 2025,
-      "place": "Iguazú",
-      "caption": "",
-      "source": "2025/Iguazú/60910012.JPG",
-      "w": 1060,
-      "h": 1600
     },
     {
       "file": "60910013",
@@ -1000,15 +1020,6 @@
       "h": 1073
     },
     {
-      "file": "S273673-R1-035-16",
-      "year": 2025,
-      "place": "Porto",
-      "caption": "",
-      "source": "2025/Porto/S273673-R1-035-16.tif",
-      "w": 1600,
-      "h": 1073
-    },
-    {
       "file": "0410-12",
       "year": 2025,
       "place": "Rio de Janeiro",
@@ -1088,15 +1099,6 @@
       "source": "2025/Santander/5896-7.jpg",
       "w": 1600,
       "h": 1088
-    },
-    {
-      "file": "5897-24",
-      "year": 2025,
-      "place": "Santander",
-      "caption": "",
-      "source": "2025/Santander/5897-24.jpg",
-      "w": 1600,
-      "h": 1102
     },
     {
       "file": "5897-28",
@@ -1196,6 +1198,46 @@
       "source": "2025/Washington DC/S275874-R1-023-10.tif",
       "w": 1600,
       "h": 1073
+    },
+    {
+      "file": "star3",
+      "year": 2025,
+      "place": "Cusco",
+      "caption": "",
+      "source": "2025/Cusco/star3.JPG",
+      "w": 1600,
+      "h": 1081,
+      "featured": 3
+    },
+    {
+      "file": "star4",
+      "year": 2025,
+      "place": "Iguazú",
+      "caption": "",
+      "source": "2025/Iguazú/star4.JPG",
+      "w": 1060,
+      "h": 1600,
+      "featured": 4
+    },
+    {
+      "file": "me",
+      "year": 2025,
+      "place": "Porto",
+      "caption": "",
+      "source": "2025/Porto/me.tif",
+      "w": 1600,
+      "h": 1073,
+      "portrait": true
+    },
+    {
+      "file": "star2",
+      "year": 2025,
+      "place": "Santander",
+      "caption": "",
+      "source": "2025/Santander/star2.jpg",
+      "w": 1600,
+      "h": 1102,
+      "featured": 2
     }
   ]
 }

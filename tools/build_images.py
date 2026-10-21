@@ -17,6 +17,10 @@ Folder names tag the photos, so sort them like this:
 photos.json is updated in place: new photos are appended, tags typed by
 hand in photos.json win over folder names, and photos no longer in
 SOURCE_DIR are removed (along with their files in images/web/).
+File names mark special photos:
+    star1.jpg ... star5.jpg   opening highlights, shown in that order
+    me.jpg                    portrait shown next to the contact details
+
 Re-running is safe; already-built sizes are skipped.
 """
 import json
@@ -122,6 +126,13 @@ def main():
             entry["year"] = entry["year"] or year
             entry["place"] = entry["place"] or place
         entry["source"] = rel[src]
+        star = re.fullmatch(r"star(\d*)", src.stem, re.IGNORECASE)
+        entry.pop("featured", None)
+        entry.pop("portrait", None)
+        if star:
+            entry["featured"] = int(star.group(1) or 0)
+        if src.stem.lower() == "me":
+            entry["portrait"] = True
         entry["w"], entry["h"] = w, h
 
     # Drop photos that are no longer part of the selection.
@@ -131,6 +142,9 @@ def main():
     for name in removed:
         for size in SIZES:
             (OUT_DIR / f"{name}-{size}.avif").unlink(missing_ok=True)
+
+    # Keep the feed newest-year first; within a year the existing order is kept.
+    data["photos"].sort(key=lambda p: -(p["year"] or 0))
 
     DATA.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
     untagged = sum(1 for p in data["photos"] if not (p["year"] and p["place"]))
